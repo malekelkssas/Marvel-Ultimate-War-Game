@@ -130,7 +130,7 @@ public class Main extends Application {
 	
 	public void scene2()
 	{
-		playmusic("/game2/sound/background1.mp4");
+		playmusic("/game2/sound/background1.mp4");//
 		
 		GridPane grid = new GridPane();
 		
@@ -2743,19 +2743,6 @@ public class Main extends Application {
 		group2.getChildren().add(iv2);
 		
 		board = new Button [5][5];
-		{
-//			b1.setBackground(Background.fill(Color.GREEN));
-			{
-//    			b3.setScaleX(6);
-//			    b3.setScaleY(2.5);
-			}
-			{
-//				b3.setScaleX(1);
-//				b3.setScaleY(1);
-//				iv3.setFitHeight(55);
-//				iv3.setFitWidth(75);
-			}
-		}
 	
 
 		Button b1 = new Button();
@@ -2773,7 +2760,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -2799,7 +2786,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -2824,7 +2811,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -2849,7 +2836,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -2874,7 +2861,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -2900,7 +2887,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -2925,7 +2912,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -2951,7 +2938,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -2976,7 +2963,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3001,7 +2988,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3026,7 +3013,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3051,7 +3038,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3076,7 +3063,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3101,7 +3088,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3126,7 +3113,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3151,7 +3138,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3176,7 +3163,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3201,7 +3188,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3226,7 +3213,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3251,7 +3238,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3278,7 +3265,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3303,7 +3290,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3328,7 +3315,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3353,7 +3340,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
@@ -3378,7 +3365,7 @@ public class Main extends Application {
 				{
 					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
 				}
-				else
+				else if(game.getBoard()[i][j] instanceof Champion)
 				{
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
