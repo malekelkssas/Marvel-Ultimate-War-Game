@@ -338,10 +338,7 @@ public class Main extends Application {
 		bp.setCenter(gp);
 		
 		StackPane gr = new StackPane();
-		HBox hb5 = new HBox();
-		hb5.setTranslateX(330);
-		hb5.setTranslateY(180);
-		hb5.setSpacing(70);
+	
 		
 		
 		
@@ -371,10 +368,13 @@ public class Main extends Application {
 		//////////////////////////////////////////////////////////////////////////////////////
 		
 		Button CaptainAmerica = new Button("Captain America");
+		CaptainAmerica.setTranslateX(-220);
+		CaptainAmerica.setTranslateY(-160);
+		
 		CaptainAmerica.setOnAction(e->
 		{
 				if(!firstpl){
-					if(CaptainAmerica.getText().equals("<      ready      >")) 
+					if(CaptainAmerica.getText().equals("<ready>")) 
 				{	
 					firstte--;
 					CaptainAmerica.setText("Captain America");
@@ -398,7 +398,7 @@ public class Main extends Application {
 					else
 					{
 						firstte++;
-						CaptainAmerica.setText("<      ready      >");
+						CaptainAmerica.setText("<ready>");
 						for(int i=0;i!=game.getAvailableChampions().size();i++)
 						{
 							if(game.getAvailableChampions().get(i).getName().equals("Captain America"))
@@ -414,7 +414,7 @@ public class Main extends Application {
 		}
 		else
 			{
-			if(CaptainAmerica.getText().equals("<      ready      >"))
+			if(CaptainAmerica.getText().equals("<ready>"))
 				{
 				for(Champion i : firstplte)
 				{
@@ -436,11 +436,13 @@ public class Main extends Application {
 		
 		
 		Button Deadpool = new Button("Deadpool");
+		Deadpool.setTranslateX(-220+145);
+		Deadpool.setTranslateY(-160);
 		Deadpool.setOnAction(e->
 		{
 				if(!firstpl)
 				{
-					if(Deadpool.getText().equals("< ready >")) 
+					if(Deadpool.getText().equals("<ready>")) 
 					{	
 						firstte--;
 						Deadpool.setText("Deadpool");
@@ -464,7 +466,7 @@ public class Main extends Application {
 						else
 						{
 							firstte++;
-							Deadpool.setText("< ready >");
+							Deadpool.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Deadpool"))
@@ -480,7 +482,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(Deadpool.getText().equals("< ready >"))
+					if(Deadpool.getText().equals("<ready>"))
 					{
 					for(Champion i : firstplte)
 					{
@@ -501,11 +503,14 @@ public class Main extends Application {
 				);
 		
 		Button DrStrange = new Button("Dr Strange");
+		DrStrange.setTranslateX(-220+145*2);
+		DrStrange.setTranslateY(-160);
+		
 		DrStrange.setOnAction(e->
 		{
 				if(!firstpl)
 				{
-					if(DrStrange.getText().equals("<  ready  >")) 
+					if(DrStrange.getText().equals("<ready>")) 
 					{	
 						firstte--;
 						DrStrange.setText("Dr Strange");
@@ -529,7 +534,7 @@ public class Main extends Application {
 						else
 						{
 							firstte++;
-							DrStrange.setText("<  ready  >");
+							DrStrange.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Dr Strange"))
@@ -545,7 +550,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(DrStrange.getText().equals("<  ready  >"))
+					if(DrStrange.getText().equals("<ready>"))
 					{
 					for(Champion i : firstplte)
 					{
@@ -566,6 +571,9 @@ public class Main extends Application {
 				);
 		
 		Button Electro = new Button("Electro");
+		Electro.setTranslateX(-220+145*3);
+		Electro.setTranslateY(-160);
+		
 		Electro.setOnAction(e->
 		{
 				if(!firstpl)
@@ -630,20 +638,20 @@ public class Main extends Application {
 		}
 				);
 		
-		hb5.getChildren().addAll(CaptainAmerica,Deadpool,DrStrange,Electro);
+	
 		
 		/////////////////
 		
-		HBox hb6 = new HBox();
-		hb6.setTranslateX(335);
-		hb6.setTranslateY(340);
-		hb6.setSpacing(100);
+	
 		Button GhostRider = new Button("Ghost Rider");
+		GhostRider.setTranslateX(-220+145*0);
+		GhostRider.setTranslateY(-160+160);
+		
 		GhostRider.setOnAction(e->
 		{
 				if(!firstpl)
 				{
-					if(GhostRider.getText().equals("<  ready  >")) 
+					if(GhostRider.getText().equals("<ready>")) 
 					{	
 						firstte--;
 						GhostRider.setText("Ghost Rider");
@@ -667,7 +675,7 @@ public class Main extends Application {
 						else
 						{
 							firstte++;
-							GhostRider.setText("<  ready  >");
+							GhostRider.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Ghost Rider"))
@@ -683,7 +691,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(GhostRider.getText().equals("<  ready  >"))
+					if(GhostRider.getText().equals("<ready>"))
 					{
 					for(Champion i : firstplte)
 					{
@@ -705,6 +713,9 @@ public class Main extends Application {
 				);
 		
 		Button Hela = new Button("Hela");
+		Hela.setTranslateX(-220+145*1);
+		Hela.setTranslateY(-160+160);
+		
 		Hela.setOnAction(e->
 		{
 				if(!firstpl)
@@ -770,6 +781,9 @@ public class Main extends Application {
 				);
 		
 		Button Hulk = new Button("Hulk");
+		Hulk.setTranslateX(-220+145*2);
+		Hulk.setTranslateY(-160+160);
+		
 		Hulk.setOnAction(e->
 		{
 				if(!firstpl)
@@ -835,11 +849,14 @@ public class Main extends Application {
 				);
 		
 		Button Iceman = new Button("Iceman");
+		Iceman.setTranslateX(-220+145*3);
+		Iceman.setTranslateY(-160+160);
+		
 		Iceman.setOnAction(e->
 		{
 				if(!firstpl)
 				{
-					if(Iceman.getText().equals("< ready >")) 
+					if(Iceman.getText().equals("<ready>")) 
 					{	
 						firstte--;
 						Iceman.setText("Iceman");
@@ -863,7 +880,7 @@ public class Main extends Application {
 						else
 						{
 							firstte++;
-							Iceman.setText("< ready >");
+							Iceman.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Iceman"))
@@ -879,7 +896,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(Iceman.getText().equals("< ready >"))
+					if(Iceman.getText().equals("<ready>"))
 					{
 					for(Champion i : firstplte)
 					{
@@ -899,19 +916,19 @@ public class Main extends Application {
 		}
 				);
 		
-		hb6.getChildren().addAll(GhostRider,Hela,Hulk,Iceman);
 		
-		HBox hb7 = new HBox();
-		hb7.setTranslateX(350);
-		hb7.setTranslateY(500);
-		hb7.setSpacing(85);
+		
+
 		
 		Button Ironman = new Button("Ironman");
+		Ironman.setTranslateX(-220+145*0);
+		Ironman.setTranslateY(-160+160*2);
+		
 		Ironman.setOnAction(e->
 		{
 				if(!firstpl)
 				{
-					if(Ironman.getText().equals("< ready >")) 
+					if(Ironman.getText().equals("<ready>")) 
 					{	
 						firstte--;
 						Ironman.setText("Ironman");
@@ -935,7 +952,7 @@ public class Main extends Application {
 						else
 						{
 							firstte++;
-							Ironman.setText("< ready >");
+							Ironman.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Ironman"))
@@ -951,7 +968,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(Ironman.getText().equals("< ready >"))
+					if(Ironman.getText().equals("<ready>"))
 					{
 					for(Champion i : firstplte)
 					{
@@ -973,6 +990,9 @@ public class Main extends Application {
 		
 		
 		Button Loki = new Button("Loki");
+		Loki.setTranslateX(-220+145*1);
+		Loki.setTranslateY(-160+160*2);
+		
 		Loki.setOnAction(e->
 		{
 				if(!firstpl)
@@ -1038,11 +1058,14 @@ public class Main extends Application {
 				);
 		
 		Button Quicksilver = new Button("Quicksilver");
+		Quicksilver.setTranslateX(-220+145*2);
+		Quicksilver.setTranslateY(-160+160*2);
+		
 		Quicksilver.setOnAction(e->
 		{
 				if(!firstpl)
 				{
-					if(Quicksilver.getText().equals("<   ready   >")) 
+					if(Quicksilver.getText().equals("<ready>")) 
 					{	
 						firstte--;
 						Quicksilver.setText("Quicksilver");
@@ -1066,7 +1089,7 @@ public class Main extends Application {
 						else
 						{
 							firstte++;
-							Quicksilver.setText("<   ready   >");
+							Quicksilver.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Quicksilver"))
@@ -1082,7 +1105,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(Quicksilver.getText().equals("<   ready   >"))
+					if(Quicksilver.getText().equals("<ready>"))
 					{
 					for(Champion i : firstplte)
 					{
@@ -1102,12 +1125,17 @@ public class Main extends Application {
 		}
 				);
 		
+		
 		Button Spiderman = new Button("Spiderman");
+		Spiderman.setTranslateX(-220+145*3);
+		Spiderman.setTranslateY(-160+160*2);
+		
+		
 		Spiderman.setOnAction(e->
 		{
 				if(!firstpl)
 				{
-					if(Spiderman.getText().equals("<   ready   >")) 
+					if(Spiderman.getText().equals("<ready>")) 
 					{	
 						firstte--;
 						Spiderman.setText("Spiderman");
@@ -1131,7 +1159,7 @@ public class Main extends Application {
 						else
 						{
 							firstte++;
-							Spiderman.setText("<   ready   >");
+							Spiderman.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Spiderman"))
@@ -1147,7 +1175,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(Spiderman.getText().equals("<   ready   >"))
+					if(Spiderman.getText().equals("<ready>"))
 					{
 					for(Champion i : firstplte)
 					{
@@ -1167,14 +1195,11 @@ public class Main extends Application {
 		}
 				);
 		
-		hb7.getChildren().addAll(Ironman,Loki,Quicksilver,Spiderman);
 		
-		
-		HBox hb8 = new HBox();
-		hb8.setTranslateX(445);
-		hb8.setTranslateY(665);
-		hb8.setSpacing(90);
 		Button Thor = new Button("Thor");
+		Thor.setTranslateX(-220+145*1.5-140);
+		Thor.setTranslateY(-160+160*3);
+		
 		Thor.setOnAction(e->
 		{
 				if(!firstpl)
@@ -1240,11 +1265,14 @@ public class Main extends Application {
 				);
 		
 		Button Venom = new Button("Venom");
+		Venom.setTranslateX(-220+145*1.5+15);
+		Venom.setTranslateY(-160+160*3);
+		
 		Venom.setOnAction(e->
 		{
 				if(!firstpl)
 				{
-					if(Venom.getText().equals("< ready >")) 
+					if(Venom.getText().equals("<ready>")) 
 					{	
 						firstte--;
 						Venom.setText("Venom");
@@ -1268,7 +1296,7 @@ public class Main extends Application {
 						else
 						{
 							firstte++;
-							Venom.setText("< ready >");
+							Venom.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Venom"))
@@ -1284,7 +1312,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(Venom.getText().equals("< ready >"))
+					if(Venom.getText().equals("<ready>"))
 					{
 					for(Champion i : firstplte)
 					{
@@ -1306,11 +1334,14 @@ public class Main extends Application {
 				);
 		
 		Button YellowJacket = new Button("Yellow Jacket");
+		YellowJacket.setTranslateX(-220+145*1.5+150);
+		YellowJacket.setTranslateY(-160+160*3);
+		
 		YellowJacket.setOnAction(e->
 		{
 				if(!firstpl)
 				{
-					if(YellowJacket.getText().equals("< ready >")) 
+					if(YellowJacket.getText().equals("<ready>")) 
 					{	
 						firstte--;
 						YellowJacket.setText("Yellow Jacket");
@@ -1334,7 +1365,7 @@ public class Main extends Application {
 						else
 						{
 							firstte++;
-							YellowJacket.setText("< ready >");
+							YellowJacket.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Yellow Jacket"))
@@ -1350,7 +1381,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(YellowJacket.getText().equals("< ready >"))
+					if(YellowJacket.getText().equals("<ready>"))
 					{
 					for(Champion i : firstplte)
 					{
@@ -1370,10 +1401,7 @@ public class Main extends Application {
 		}
 				);
 		
-		hb8.getChildren().addAll(Thor,Venom,YellowJacket);
-		
-		
-		gr.getChildren().addAll(hb5,hb6,hb7,hb8);
+
 		
 		
 		
@@ -1408,13 +1436,11 @@ public class Main extends Application {
 		ImageView iv2 = new ImageView(im2);
 		iv2.setFitHeight(700);
 		iv2.setFitWidth(1200);
-		Group g = new Group();
-		g.getChildren().add(iv2);
 		
 		StackPane sp = new StackPane();
-		sp.getChildren().add(g);
+		sp.getChildren().add(iv2);
 		sp.getChildren().add(bp);
-		sp.getChildren().add(gr);
+		sp.getChildren().addAll(gr,CaptainAmerica,Deadpool,DrStrange,Electro,GhostRider,Hela,Hulk,Iceman,Ironman,Loki,Quicksilver,Spiderman,Thor,Venom,YellowJacket);
 //		Button b = new Button("captin");
 		
 
@@ -1556,11 +1582,8 @@ public class Main extends Application {
 		bp.setLeft(sp2);
 		bp.setCenter(gp);
 		
-		StackPane gr = new StackPane();
-		HBox hb5 = new HBox();
-		hb5.setTranslateX(330);
-		hb5.setTranslateY(180);
-		hb5.setSpacing(70);
+		
+
 		
 		Label tmp = new Label(game.getSecondPlayer().getName());
 		//tmp.setText("");
@@ -1571,7 +1594,7 @@ public class Main extends Application {
 		//tmp.geta
 		tmp.setTranslateX(465);
 		tmp.setTranslateY(-325);
-		gr.getChildren().add(tmp);
+		
 		
 		Label tmp2 = new Label("");
 		tmp.setScaleX(5);
@@ -1581,18 +1604,17 @@ public class Main extends Application {
 		//tmp.geta
 		tmp2.setTranslateX(460);
 		tmp2.setTranslateY(0);
-		gr.getChildren().add(tmp2);
 		
-		gr.getChildren().addAll(fr,fr2);
-		
-		Button CaptainAmerica = new Button(isfirstplayerhas("Captain America")?"<      taken      >":"Captain America");
+		Button CaptainAmerica = new Button(isfirstplayerhas("Captain America")?"<taken>":"Captain America");
+		CaptainAmerica.setTranslateX(-220);
+		CaptainAmerica.setTranslateY(-160);	
 		CaptainAmerica.setOnAction(e->
 		{
 				
-					if(!CaptainAmerica.getText().equals("<      taken      >")){
+					if(!CaptainAmerica.getText().equals("<taken>")){
 					if(!secondpl)
 					{
-						if(CaptainAmerica.getText().equals("<      ready      >")) 
+						if(CaptainAmerica.getText().equals("<ready>")) 
 						{	
 							secondte--;
 							CaptainAmerica.setText("Captain America");
@@ -1616,7 +1638,7 @@ public class Main extends Application {
 							else
 							{
 								secondte++;
-								CaptainAmerica.setText("<      ready      >");
+								CaptainAmerica.setText("<ready>");
 								for(int i=0;i!=game.getAvailableChampions().size();i++)
 								{
 									if(game.getAvailableChampions().get(i).getName().equals("Captain America"))
@@ -1632,7 +1654,7 @@ public class Main extends Application {
 					}
 						else
 						{
-							if(CaptainAmerica.getText().equals("<      ready      >"))
+							if(CaptainAmerica.getText().equals("<ready>"))
 							{
 							for(Champion i : secondplte)
 							{
@@ -1657,13 +1679,15 @@ public class Main extends Application {
 				);
 		
 		
-		Button Deadpool = new Button(isfirstplayerhas("Deadpool")?"< taken >":"Deadpool");
+		Button Deadpool = new Button(isfirstplayerhas("Deadpool")?"<taken>":"Deadpool");
+		Deadpool.setTranslateX(-220+145);
+		Deadpool.setTranslateY(-160);
 		Deadpool.setOnAction(e->
 		{
-				if(!Deadpool.getText().equals("< taken >")){
+				if(!Deadpool.getText().equals("<taken>")){
 				if(!secondpl)
 				{
-					if(Deadpool.getText().equals("< ready >")) 
+					if(Deadpool.getText().equals("<ready>")) 
 					{	
 						secondte--;
 						Deadpool.setText("Deadpool");
@@ -1687,7 +1711,7 @@ public class Main extends Application {
 						else
 						{
 							secondte++;
-							Deadpool.setText("< ready >");
+							Deadpool.setText("<ready>");
 							for(int i=0;i!=game.getAvailableChampions().size();i++)
 							{
 								if(game.getAvailableChampions().get(i).getName().equals("Deadpool"))
@@ -1703,7 +1727,7 @@ public class Main extends Application {
 				}
 				else
 				{
-					if(Deadpool.getText().equals("< ready >"))
+					if(Deadpool.getText().equals("<ready>"))
 					{
 					for(Champion i : secondplte)
 					{
@@ -1724,13 +1748,15 @@ public class Main extends Application {
 		}
 				);
 		
-		Button DrStrange = new Button(isfirstplayerhas("Dr Strange")?"<  taken  >":"Dr Strange");
+		Button DrStrange = new Button(isfirstplayerhas("Dr Strange")?"<taken>":"Dr Strange");
+		DrStrange.setTranslateX(-220+145*2);
+		DrStrange.setTranslateY(-160);	
 		DrStrange.setOnAction(e->
 		{
-				if(!DrStrange.getText().equals("<  taken  >")){
+				if(!DrStrange.getText().equals("<taken>")){
 					if(!secondpl)
 					{
-						if(DrStrange.getText().equals("<  ready  >")) 
+						if(DrStrange.getText().equals("<ready>")) 
 						{	
 							secondte--;
 							DrStrange.setText("Dr Strange");
@@ -1754,7 +1780,7 @@ public class Main extends Application {
 							else
 							{
 								secondte++;
-								DrStrange.setText("<  ready  >");
+								DrStrange.setText("<ready>");
 								for(int i=0;i!=game.getAvailableChampions().size();i++)
 								{
 									if(game.getAvailableChampions().get(i).getName().equals("Dr Strange"))
@@ -1770,7 +1796,7 @@ public class Main extends Application {
 					}
 					else
 					{
-						if(DrStrange.getText().equals("<  ready  >"))
+						if(DrStrange.getText().equals("<ready>"))
 						{
 						for(Champion i : secondplte)
 						{
@@ -1792,6 +1818,8 @@ public class Main extends Application {
 				);
 		
 		Button Electro = new Button(isfirstplayerhas("Electro")?"<taken>":"Electro");
+		Electro.setTranslateX(-220+145*3);
+		Electro.setTranslateY(-160);
 		Electro.setOnAction(e->
 		{
 				if(!Electro.getText().equals("<taken>")){
@@ -1858,21 +1886,17 @@ public class Main extends Application {
 		}
 				);
 		
-		hb5.getChildren().addAll(CaptainAmerica,Deadpool,DrStrange,Electro);
+	
+		Button GhostRider = new Button(isfirstplayerhas("Ghost Rider")?"<taken>":"Ghost Rider");
+		GhostRider.setTranslateX(-220+145*0);
+		GhostRider.setTranslateY(-160+160);
 		
-		/////////////////
-		
-		HBox hb6 = new HBox();
-		hb6.setTranslateX(335);
-		hb6.setTranslateY(340);
-		hb6.setSpacing(100);
-		Button GhostRider = new Button(isfirstplayerhas("Ghost Rider")?"<  taken  >":"Ghost Rider");
 		GhostRider.setOnAction(e->
 		{
-				if(!GhostRider.getText().equals("<  taken  >")){
+				if(!GhostRider.getText().equals("<taken>")){
 					if(!secondpl)
 					{
-						if(GhostRider.getText().equals("<  ready  >")) 
+						if(GhostRider.getText().equals("<ready>")) 
 						{	
 							secondte--;
 							GhostRider.setText("Ghost Rider");
@@ -1896,7 +1920,7 @@ public class Main extends Application {
 							else
 							{
 								secondte++;
-								GhostRider.setText("<  ready  >");
+								GhostRider.setText("<ready>");
 								for(int i=0;i!=game.getAvailableChampions().size();i++)
 								{
 									if(game.getAvailableChampions().get(i).getName().equals("Ghost Rider"))
@@ -1912,7 +1936,7 @@ public class Main extends Application {
 					}
 					else
 					{
-						if(GhostRider.getText().equals("<  ready  >"))
+						if(GhostRider.getText().equals("<ready>"))
 						{
 						for(Champion i : secondplte)
 						{
@@ -1934,6 +1958,8 @@ public class Main extends Application {
 				);
 		
 		Button Hela = new Button(isfirstplayerhas("Hela")?"<taken>":"Hela");
+		Hela.setTranslateX(-220+145*1);
+		Hela.setTranslateY(-160+160);
 		Hela.setOnAction(e->
 		{
 				if(!Hela.getText().equals("<taken>")){
@@ -2001,6 +2027,8 @@ public class Main extends Application {
 				);
 		
 		Button Hulk = new Button(isfirstplayerhas("Hulk")?"<taken>":"Hulk");
+		Hulk.setTranslateX(-220+145*2);
+		Hulk.setTranslateY(-160+160);
 		Hulk.setOnAction(e->
 		{
 				if(!Hulk.getText().equals("<taken>")){
@@ -2067,13 +2095,15 @@ public class Main extends Application {
 		}
 				);
 		
-		Button Iceman = new Button(isfirstplayerhas("Iceman")?"< taken >":"Iceman");
+		Button Iceman = new Button(isfirstplayerhas("Iceman")?"<taken>":"Iceman");
+		Iceman.setTranslateX(-220+145*3);
+		Iceman.setTranslateY(-160+160);
 		Iceman.setOnAction(e->
 		{
-				if(!Iceman.getText().equals("< taken >")){
+				if(!Iceman.getText().equals("<taken>")){
 					if(!secondpl)
 					{
-						if(Iceman.getText().equals("< ready >")) 
+						if(Iceman.getText().equals("<ready>")) 
 						{	
 							secondte--;
 							Iceman.setText("Iceman");
@@ -2097,7 +2127,7 @@ public class Main extends Application {
 							else
 							{
 								secondte++;
-								Iceman.setText("< ready >");
+								Iceman.setText("<ready>");
 								for(int i=0;i!=game.getAvailableChampions().size();i++)
 								{
 									if(game.getAvailableChampions().get(i).getName().equals("Iceman"))
@@ -2113,7 +2143,7 @@ public class Main extends Application {
 					}
 					else
 					{
-						if(Iceman.getText().equals("< ready >"))
+						if(Iceman.getText().equals("<ready>"))
 						{
 						for(Champion i : secondplte)
 						{
@@ -2134,20 +2164,17 @@ public class Main extends Application {
 		}
 				);
 		
-		hb6.getChildren().addAll(GhostRider,Hela,Hulk,Iceman);
+	
 		
-		HBox hb7 = new HBox();
-		hb7.setTranslateX(350);
-		hb7.setTranslateY(500);
-		hb7.setSpacing(85);
-		
-		Button Ironman = new Button(isfirstplayerhas("Ironman")?"< taken >":"Ironman");
+		Button Ironman = new Button(isfirstplayerhas("Ironman")?"<taken>":"Ironman");
+		Ironman.setTranslateX(-220+145*0);
+		Ironman.setTranslateY(-160+160*2);	
 		Ironman.setOnAction(e->
 		{
-				if(!Ironman.getText().equals("< taken >")){
+				if(!Ironman.getText().equals("<taken>")){
 					if(!secondpl)
 					{
-						if(Ironman.getText().equals("< ready >")) 
+						if(Ironman.getText().equals("<ready>")) 
 						{	
 							secondte--;
 							Ironman.setText("Ironman");
@@ -2171,7 +2198,7 @@ public class Main extends Application {
 							else
 							{
 								secondte++;
-								Ironman.setText("< ready >");
+								Ironman.setText("<ready>");
 								for(int i=0;i!=game.getAvailableChampions().size();i++)
 								{
 									if(game.getAvailableChampions().get(i).getName().equals("Ironman"))
@@ -2187,7 +2214,7 @@ public class Main extends Application {
 					}
 					else
 					{
-						if(Ironman.getText().equals("< ready >"))
+						if(Ironman.getText().equals("<ready>"))
 						{
 						for(Champion i : secondplte)
 						{
@@ -2210,6 +2237,8 @@ public class Main extends Application {
 		
 		
 		Button Loki = new Button(isfirstplayerhas("Loki")?"<taken>":"Loki");
+		Loki.setTranslateX(-220+145*1);
+		Loki.setTranslateY(-160+160*2);
 		Loki.setOnAction(e->
 		{
 			if(!Loki.getText().equals("<taken>")){
@@ -2276,13 +2305,15 @@ public class Main extends Application {
 		}
 				);
 		
-		Button Quicksilver = new Button(isfirstplayerhas("Quicksilver")?"<   taken   >":"Quicksilver");
+		Button Quicksilver = new Button(isfirstplayerhas("Quicksilver")?"<taken>":"Quicksilver");
+		Quicksilver.setTranslateX(-220+145*2);
+		Quicksilver.setTranslateY(-160+160*2);
 		Quicksilver.setOnAction(e->
 		{
-				if(!Quicksilver.getText().equals("<   taken   >")){
+				if(!Quicksilver.getText().equals("<taken>")){
 					if(!secondpl)
 					{
-						if(Quicksilver.getText().equals("<   ready   >")) 
+						if(Quicksilver.getText().equals("<ready>")) 
 						{	
 							secondte--;
 							Quicksilver.setText("Quicksilver");
@@ -2306,7 +2337,7 @@ public class Main extends Application {
 							else
 							{
 								secondte++;
-								Quicksilver.setText("<   ready   >");
+								Quicksilver.setText("<ready>");
 								for(int i=0;i!=game.getAvailableChampions().size();i++)
 								{
 									if(game.getAvailableChampions().get(i).getName().equals("Quicksilver"))
@@ -2322,7 +2353,7 @@ public class Main extends Application {
 					}
 					else
 					{
-						if(Quicksilver.getText().equals("<   ready   >"))
+						if(Quicksilver.getText().equals("<ready>"))
 						{
 						for(Champion i : secondplte)
 						{
@@ -2343,13 +2374,15 @@ public class Main extends Application {
 		}
 				);
 		
-		Button Spiderman = new Button(isfirstplayerhas("Spiderman")?"<   taken   >":"Spiderman");
+		Button Spiderman = new Button(isfirstplayerhas("Spiderman")?"<taken>":"Spiderman");
+		Spiderman.setTranslateX(-220+145*3);
+		Spiderman.setTranslateY(-160+160*2);
 		Spiderman.setOnAction(e->
 		{
-				if(!Spiderman.getText().equals("<   taken   >")){
+				if(!Spiderman.getText().equals("<taken>")){
 					if(!secondpl)
 					{
-						if(Spiderman.getText().equals("<   ready   >")) 
+						if(Spiderman.getText().equals("<ready>")) 
 						{	
 							secondte--;
 							Spiderman.setText("Spiderman");
@@ -2373,7 +2406,7 @@ public class Main extends Application {
 							else
 							{
 								secondte++;
-								Spiderman.setText("<   ready   >");
+								Spiderman.setText("<ready>");
 								for(int i=0;i!=game.getAvailableChampions().size();i++)
 								{
 									if(game.getAvailableChampions().get(i).getName().equals("Spiderman"))
@@ -2389,7 +2422,7 @@ public class Main extends Application {
 					}
 					else
 					{
-						if(Spiderman.getText().equals("<   ready   >"))
+						if(Spiderman.getText().equals("<ready>"))
 						{
 						for(Champion i : secondplte)
 						{
@@ -2410,14 +2443,10 @@ public class Main extends Application {
 		}
 				);
 		
-		hb7.getChildren().addAll(Ironman,Loki,Quicksilver,Spiderman);
-		
-		
-		HBox hb8 = new HBox();
-		hb8.setTranslateX(445);
-		hb8.setTranslateY(665);
-		hb8.setSpacing(90);
+	
 		Button Thor = new Button(isfirstplayerhas("Thor")?"<taken>":"Thor");
+		Thor.setTranslateX(-220+145*1.5-140);
+		Thor.setTranslateY(-160+160*3);
 		Thor.setOnAction(e->
 		{
 				if(!Thor.getText().equals("<taken>")){
@@ -2484,13 +2513,15 @@ public class Main extends Application {
 		}
 				);
 		
-		Button Venom = new Button(isfirstplayerhas("Venom")?"< taken >":"Venom");
+		Button Venom = new Button(isfirstplayerhas("Venom")?"<taken>":"Venom");
+		Venom.setTranslateX(-220+145*1.5+15);
+		Venom.setTranslateY(-160+160*3);	
 		Venom.setOnAction(e->
 		{
-				if(!Venom.getText().equals("< taken >")){
+				if(!Venom.getText().equals("<taken>")){
 					if(!secondpl)
 					{
-						if(Venom.getText().equals("< ready >")) 
+						if(Venom.getText().equals("<ready>")) 
 						{	
 							secondte--;
 							Venom.setText("Venom");
@@ -2514,7 +2545,7 @@ public class Main extends Application {
 							else
 							{
 								secondte++;
-								Venom.setText("< ready >");
+								Venom.setText("<ready>");
 								for(int i=0;i!=game.getAvailableChampions().size();i++)
 								{
 									if(game.getAvailableChampions().get(i).getName().equals("Venom"))
@@ -2530,7 +2561,7 @@ public class Main extends Application {
 					}
 					else
 					{
-						if(Venom.getText().equals("< ready >"))
+						if(Venom.getText().equals("<ready>"))
 						{
 						for(Champion i : secondplte)
 						{
@@ -2552,13 +2583,15 @@ public class Main extends Application {
 		}
 				);
 		
-		Button YellowJacket = new Button(isfirstplayerhas("Yellow Jacket")?"< taken >":"Yellow Jacket");
+		Button YellowJacket = new Button(isfirstplayerhas("Yellow Jacket")?"<taken>":"Yellow Jacket");
+		YellowJacket.setTranslateX(-220+145*1.5+150);
+		YellowJacket.setTranslateY(-160+160*3);
 		YellowJacket.setOnAction(e->
 		{
-			if(!YellowJacket.getText().equals("< taken >")){	
+			if(!YellowJacket.getText().equals("<taken>")){	
 			if(!secondpl)
 			{
-				if(YellowJacket.getText().equals("< ready >")) 
+				if(YellowJacket.getText().equals("<ready>")) 
 				{	
 					secondte--;
 					YellowJacket.setText("Yellow Jacket");
@@ -2582,7 +2615,7 @@ public class Main extends Application {
 					else
 					{
 						secondte++;
-						YellowJacket.setText("< ready >");
+						YellowJacket.setText("<ready>");
 						for(int i=0;i!=game.getAvailableChampions().size();i++)
 						{
 							if(game.getAvailableChampions().get(i).getName().equals("Yellow Jacket"))
@@ -2598,7 +2631,7 @@ public class Main extends Application {
 			}
 			else
 			{
-				if(YellowJacket.getText().equals("< ready >"))
+				if(YellowJacket.getText().equals("<ready>"))
 				{
 				for(Champion i : secondplte)
 				{
@@ -2619,18 +2652,13 @@ public class Main extends Application {
 		}
 				);
 		
-		hb8.getChildren().addAll(Thor,Venom,YellowJacket);
-		
-		
-		gr.getChildren().addAll(hb5,hb6,hb7,hb8);
-		
+	
 		Button next = new Button("next");
 		next.setTranslateX(500);
 		next.setTranslateY(300);
 		next.setScaleX(1.5);
 		next.setScaleY(1.5);
-		gr.getChildren().add(next);
-		
+	
 		next.setOnAction(e ->
 		{
 			if(secondte==3) {
@@ -2678,7 +2706,7 @@ public class Main extends Application {
 		prev.setTranslateY(300);
 		prev.setScaleX(1.5);
 		prev.setScaleY(1.5);
-		gr.getChildren().add(prev);
+		
 		
 		prev.setOnAction(e ->
 		{
@@ -2696,7 +2724,7 @@ public class Main extends Application {
 		StackPane sp = new StackPane();
 		sp.getChildren().add(g);
 		sp.getChildren().add(bp);
-		sp.getChildren().add(gr);
+		sp.getChildren().addAll(tmp,tmp2,next,prev,CaptainAmerica,Deadpool,DrStrange,Electro,GhostRider,Hela,Hulk,Iceman,Ironman,Loki,Quicksilver,Spiderman,Thor,Venom,YellowJacket);
 //		Button b = new Button("captin");
 		
 
