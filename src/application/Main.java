@@ -3988,11 +3988,10 @@ public class Main extends Application {
 				tmp.append("    attackDamage: "+i.getAttackDamage()+'\n');
 				tmp.append("    attackRange: "+i.getAttackRange()+'\n');
 				tmp.append("    speed: "+i.getSpeed()+'\n');
-				tmp.append("    abilities :"+'\n');
-				for(Ability j : i.getAbilities())
+				tmp.append("    -Applied Effects :"+'\n');
+				for(Effect j :i.getAppliedEffects())
 				{
-					tmp.append("        "+j.getName()+'\n');
-					
+					tmp.append("        ."+getins3(j)+'\n');
 				}
 			}
 		}
@@ -4015,11 +4014,10 @@ public class Main extends Application {
 				tmp.append("    attackDamage: "+i.getAttackDamage()+'\n');
 				tmp.append("    attackRange: "+i.getAttackRange()+'\n');
 				tmp.append("    speed: "+i.getSpeed()+'\n');
-				tmp.append("    abilities :"+'\n');
-				for(Ability j : i.getAbilities())
+				tmp.append("    -Applied Effects :"+'\n');
+				for(Effect j :i.getAppliedEffects())
 				{
-					tmp.append("        "+j.getName()+'\n');
-					
+					tmp.append("        ."+getins3(j)+'\n');
 				}
 			}
 			
