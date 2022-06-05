@@ -3781,7 +3781,7 @@ public class Main extends Application {
 	{
 		nextcha = new HBox();
 		nextcha.setTranslateY(29);
-		nextcha.setTranslateX(500);
+		nextcha.setTranslateX(490);
 		int i=0;
 		ArrayList<Champion> arr = new ArrayList<>();
 		while(!game.getTurnOrder().isEmpty()&&i!=3)
@@ -3791,7 +3791,7 @@ public class Main extends Application {
 			arr.add(tmp);
 			ImageView iv =new ImageView(new Image(geticon(tmp.getName())));
 			iv.setFitHeight(85);
-			iv.setFitWidth(70);
+			iv.setFitWidth(75);
 			nextcha.getChildren().add(iv);
 			i++;
 			
@@ -3805,25 +3805,25 @@ public class Main extends Application {
 	public String geticon(String s)
 	{
 		
-			switch(s)
-			{
-			case("Captain America"): return "Captain Americabat.png";
-			case("Deadpool"): return "Deadpoolbat.png";
-			case("Dr Strange") : return "Dr Strangebat.png";
-			case("Electro"):return "Electrobat.png";
-			case("Ghost Rider") : return "Ghost Riderbat.png";
-			case("Hela") : return "Helabat.png";
-			case("Hulk"): return "Hulkbat.png";
-			case("Iceman"):return "Icemanbat.png";
-			case("Ironman"): return "Ironmanbat.png";
-			case("Loki"):return "Lokibat.png";
-			case("Quicksilver"):return "Quicksilverbat.png";
-			case("Spiderman"):return "Spidermanbat.png";
-			case("Thor") :return "Thorbat.png";
-			case("Venom"):return "Venombat.png";
-			default : return "Yellow Jacketbat.png";
-			
-			}
+		switch(s)
+		{
+		case("Captain America"): return "captin.jpg";
+		case("Deadpool"): return "Deadpool.jpg";
+		case("Dr Strange") : return "Dr Strange.jpg";
+		case("Electro"):return "Electro.png";
+		case("Ghost Rider") : return "Ghost Rider.jpg";
+		case("Hela") : return "Hela.jpg";
+		case("Hulk"): return "Hulk.jpg";
+		case("Iceman"):return "Iceman.jpg";
+		case("Ironman"): return "Ironman.jpg";
+		case("Loki"):return "Loki.jpg";
+		case("Quicksilver"):return "Quicksilver.png";
+		case("Spiderman"):return "Spiderman.jpg";
+		case("Thor") :return "Thor.jpg";
+		case("Venom"):return "Venom.jpg";
+		default : return "Yellow Jacket.jpg";
+		
+		}
 		
 			
 	}
@@ -3835,21 +3835,21 @@ public class Main extends Application {
 		{
 			switch(((Champion)game.getBoard()[x][y]).getName())
 			{
-			case("Captain America"): return "Captain Americabat.png";
-			case("Deadpool"): return "Deadpoolbat.png";
-			case("Dr Strange") : return "Dr Strangebat.png";
-			case("Electro"):return "Electrobat.png";
-			case("Ghost Rider") : return "Ghost Riderbat.png";
-			case("Hela") : return "Helabat.png";
-			case("Hulk"): return "Hulkbat.png";
-			case("Iceman"):return "Icemanbat.png";
-			case("Ironman"): return "Ironmanbat.png";
-			case("Loki"):return "Lokibat.png";
-			case("Quicksilver"):return "Quicksilverbat.png";
-			case("Spiderman"):return "Spidermanbat.png";
-			case("Thor") :return "Thorbat.png";
-			case("Venom"):return "Venombat.png";
-			default : return "Yellow Jacketbat.png";
+			case("Captain America"): return "captin.jpg";
+			case("Deadpool"): return "Deadpool.jpg";
+			case("Dr Strange") : return "Dr Strange.jpg";
+			case("Electro"):return "Electro.png";
+			case("Ghost Rider") : return "Ghost Rider.jpg";
+			case("Hela") : return "Hela.jpg";
+			case("Hulk"): return "Hulk.jpg";
+			case("Iceman"):return "Iceman.jpg";
+			case("Ironman"): return "Ironman.jpg";
+			case("Loki"):return "Loki.jpg";
+			case("Quicksilver"):return "Quicksilver.png";
+			case("Spiderman"):return "Spiderman.jpg";
+			case("Thor") :return "Thor.jpg";
+			case("Venom"):return "Venom.jpg";
+			default : return "Yellow Jacket.jpg";
 			
 			}
 		}
