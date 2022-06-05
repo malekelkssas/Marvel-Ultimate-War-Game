@@ -2724,7 +2724,7 @@ public class Main extends Application {
 		StackPane sp = new StackPane();
 		sp.getChildren().add(g);
 		sp.getChildren().add(bp);
-		sp.getChildren().addAll(tmp,tmp2,next,prev,CaptainAmerica,Deadpool,DrStrange,Electro,GhostRider,Hela,Hulk,Iceman,Ironman,Loki,Quicksilver,Spiderman,Thor,Venom,YellowJacket);
+		sp.getChildren().addAll(fr,fr2,tmp,tmp2,next,prev,CaptainAmerica,Deadpool,DrStrange,Electro,GhostRider,Hela,Hulk,Iceman,Ironman,Loki,Quicksilver,Spiderman,Thor,Venom,YellowJacket);
 //		Button b = new Button("captin");
 		
 
