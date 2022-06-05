@@ -30,8 +30,6 @@ public class singletarget {
 		window.setTitle("choose location");
 		window.setMinWidth(600);
 		window.setMinHeight(600);
-
-
 		Button b1 = new Button();
 		b1.setScaleX(6);
 		b1.setScaleY(2.5);
@@ -449,9 +447,13 @@ public class singletarget {
 		}
 		);
 		put();
+		Image im = new Image("images.png");
+		ImageView iv2 = new ImageView(im);
+		iv2.setFitHeight(700);
+		iv2.setFitWidth(1200);
 		StackPane gp = new StackPane();
 		gp.setBackground(Background.fill(Color.BLACK));
-		gp.getChildren().addAll(b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,b18,b19,b20,b21,b22,b23,b24,b25,cancel);
+		gp.getChildren().addAll(iv2,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,b18,b19,b20,b21,b22,b23,b24,b25,cancel);
 		Scene scene = new Scene(gp,1200,700);
 		
 		window.setScene(scene);

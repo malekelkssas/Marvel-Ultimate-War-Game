@@ -5,9 +5,11 @@ import java.util.TreeMap;
 import engine.Game;
 import model.abilities.Ability;
 import model.abilities.AreaOfEffect;
+import model.abilities.CrowdControlAbility;
 import model.abilities.DamagingAbility;
 import model.abilities.HealingAbility;
 import model.effects.Effect;
+import model.effects.EffectType;
 import model.effects.Silence;
 import model.world.Champion;
 import model.world.Cover;
@@ -21,8 +23,10 @@ public class computer {
 	private static boolean attack; 
 	private static boolean attackability;
 	private static boolean healingability;
+	private static boolean crowdcontrolability;
 	private static TreeMap<Integer,Pair> damageabilities;
 	private static TreeMap<Integer,Pair> healingabilities;
+	private static TreeMap<Integer,Pair> crowdcontrolabilities;
 	private static Champion currentchampion;
 	public void play(Game originalgame)
 	{
@@ -31,6 +35,7 @@ public class computer {
 		 inattackcover = new TreeMap<>();
 		 damageabilities = new TreeMap<>();
 		 healingabilities = new TreeMap<>();
+		 crowdcontrolabilities = new TreeMap<>();
 		currentchampion = game.getCurrentChampion();
 
 	}
@@ -151,6 +156,7 @@ public class computer {
 			else
 			{
 				int all=Integer.MAX_VALUE;
+				pair tm = null;
 				boolean findcham = false;
 				for(int j=0;j!=5;j++)
 				{
@@ -162,12 +168,22 @@ public class computer {
 							{
 								if((game.getBoard()[j][k] instanceof Cover && !findcham))
 								{
+									int tmp = all;
 									all = Math.min(all,((Damageable)game.getBoard()[j][k]).getCurrentHP());
+									if(tmp !=all)
+									{
+										tm = new pair(j,k);
+									}
 								}
 								else if(game.getBoard()[j][k] instanceof Champion &&!game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
 								{
 									findcham=true;
+									int tmp = all;
 									all = Math.min(all,((Damageable)game.getBoard()[j][k]).getCurrentHP());
+									if(tmp!=all)
+									{
+										tm = new pair(j,k);
+									}
 								}
 							}
 						}
@@ -176,7 +192,7 @@ public class computer {
 				if(all !=Integer.MAX_VALUE)
 				{
 					attackability=true;
-					damageabilities.put(((DamagingAbility)i).getDamageAmount(),new Pair(((DamagingAbility)i),null));
+					damageabilities.put(((DamagingAbility)i).getDamageAmount(),new Pair(((DamagingAbility)i),tm));
 				}
 			}
 		}
@@ -276,6 +292,7 @@ public class computer {
 				else
 				{
 					int all=Integer.MIN_VALUE;
+					pair tm = null;
 					for(int j=0;j!=5;j++)
 					{
 						for(int k=0;k!=5;k++)
@@ -286,7 +303,10 @@ public class computer {
 								{
 									 if(game.getBoard()[j][k] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
 									{
+										 int tmp = all;
 										all = Math.max(all,(((Champion) game.getBoard()[j][k]).getMaxHP())-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP())));
+										if(tmp !=all)
+											tm = new pair(j,k);
 									}
 								}
 							}
@@ -295,11 +315,252 @@ public class computer {
 					if(all !=Integer.MIN_VALUE)
 					{
 						healingability=true;
-						healingabilities.put(all,new Pair(((HealingAbility)i),null));
+						healingabilities.put(all,new Pair(((HealingAbility)i),tm));
 					}
 				}
 			}
 	}
+	public void crowdcontrolability()
+	{
+		for(Effect i:currentchampion.getAppliedEffects())
+			if(i instanceof Silence)
+				return;
+		for(Ability i : currentchampion.getAbilities())
+		{
+			if(!(i instanceof CrowdControlAbility)||i.getCurrentCooldown()!=0||(currentchampion.getCurrentActionPoints()<i.getRequiredActionPoints())||(currentchampion.getMana()<i.getManaCost()))
+				continue;
+			if(((CrowdControlAbility)i).getEffect().getType().equals(EffectType.BUFF))
+			{
+				if(i.getCastArea().equals(AreaOfEffect.SURROUND)||i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
+				{
+					int all=0;
+					for(int j=0;j!=5;j++)
+					{
+						for(int k=0;k!=5;k++)
+						{
+							if(game.getBoard()[j][k]!=null && !(game.getBoard()[j][k] instanceof Cover))
+							{
+								if(Math.abs(currentchampion.getLocation().x-j)+(Math.abs(currentchampion.getLocation().y-k))<=i.getCastRange())
+								{
+									if(game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
+										all++;
+								}
+							}
+						}
+					}
+					if(all!=0) {
+						crowdcontrolability = true;
+						crowdcontrolabilities.put(all,new Pair(((CrowdControlAbility)i),null));
+					}
+				}
+				else if(i.getCastArea().equals(AreaOfEffect.DIRECTIONAL))
+				{
+					int up = 0;
+					int j=currentchampion.getLocation().x+1;
+					int c=1;
+					for(;j<5&&c<=i.getCastRange();j++,c++)
+						if(game.getBoard()[j][currentchampion.getLocation().y]!=null)
+						{
+							if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
+							{
+								up++ ;
+							}
+						}
+					int down =0;
+					j=currentchampion.getLocation().x-1;
+					c=1;
+					for(;j>-1&&c<=i.getCastRange();j--,c++)
+						if(game.getBoard()[j][currentchampion.getLocation().y]!=null)
+						{
+							if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
+							{
+								down++;
+							}
+						}
+					int right=0;
+					j = currentchampion.getLocation().y+1;
+					c = 1;
+					for(;j<5&&c<=i.getCastRange();j++,c++)
+						if(game.getBoard()[currentchampion.getLocation().x][j]!=null)
+						{
+							if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
+							{
+								right++;
+							}
+						}
+					int left =0;
+					j = currentchampion.getLocation().y-1;
+					c = 1;
+					for(;j>-1&&c<=i.getCastRange();j--,c++)
+						if(game.getBoard()[currentchampion.getLocation().x][j]!=null)
+						{
+							if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
+							{
+								left++;
+							}
+						}
+					if(up!=0||right!=0||left!=0||down!=0)
+					{
+						crowdcontrolability = true;
+						
+						int t = (Math.max(Math.max(up, down), Math.max(right, left)));
+						if(t==up)
+							crowdcontrolabilities.put(up,new Pair(((CrowdControlAbility)i),Direction.UP));
+						else if(t==down)
+							crowdcontrolabilities.put(down,new Pair(((CrowdControlAbility)i),Direction.DOWN));
+						else if (t==right)
+							crowdcontrolabilities.put(right,new Pair(((CrowdControlAbility)i),Direction.RIGHT));
+						else
+							crowdcontrolabilities.put(left,new Pair(((CrowdControlAbility)i),Direction.LEFT));
+					}
+				}
+				else
+				{
+					int all=0;
+					pair tm = null;
+					w:for(int j=0;j!=5;j++)
+					{
+						for(int k=0;k!=5;k++)
+						{
+							if(game.getBoard()[j][k]!=null)
+							{
+								if(Math.abs(currentchampion.getLocation().x-j)+(Math.abs(currentchampion.getLocation().y-k))<=i.getCastRange())
+								{
+									 if(game.getBoard()[j][k] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
+									{
+										 all=1;
+										tm = new pair(j,k);
+										break w;
+									}
+								}
+							}
+						}
+					}
+					if(all !=0)
+					{
+						crowdcontrolability =true;
+						crowdcontrolabilities.put(all,new Pair(((CrowdControlAbility)i),tm));
+					}
+				}
+			}
+			else
+			{
+				if(i.getCastArea().equals(AreaOfEffect.SURROUND)||i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
+				{
+					int all=0;
+					for(int j=0;j!=5;j++)
+					{
+						for(int k=0;k!=5;k++)
+						{
+							if(game.getBoard()[j][k]!=null && !(game.getBoard()[j][k] instanceof Cover))
+							{
+								if(Math.abs(currentchampion.getLocation().x-j)+(Math.abs(currentchampion.getLocation().y-k))<=i.getCastRange())
+								{
+									if(!game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
+										all++;
+								}
+							}
+						}
+					}
+					if(all!=0) {
+						crowdcontrolability = true;
+						crowdcontrolabilities.put(all,new Pair(((CrowdControlAbility)i),null));
+					}
+				}
+				else if(i.getCastArea().equals(AreaOfEffect.DIRECTIONAL))
+				{
+					int up = 0;
+					int j=currentchampion.getLocation().x+1;
+					int c=1;
+					for(;j<5&&c<=i.getCastRange();j++,c++)
+						if(game.getBoard()[j][currentchampion.getLocation().y]!=null)
+						{
+							if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Champion && !game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
+							{
+								up++ ;
+							}
+						}
+					int down =0;
+					j=currentchampion.getLocation().x-1;
+					c=1;
+					for(;j>-1&&c<=i.getCastRange();j--,c++)
+						if(game.getBoard()[j][currentchampion.getLocation().y]!=null)
+						{
+							if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Champion && !game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
+							{
+								down++;
+							}
+						}
+					int right=0;
+					j = currentchampion.getLocation().y+1;
+					c = 1;
+					for(;j<5&&c<=i.getCastRange();j++,c++)
+						if(game.getBoard()[currentchampion.getLocation().x][j]!=null)
+						{
+							if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Champion && !game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
+							{
+								right++;
+							}
+						}
+					int left =0;
+					j = currentchampion.getLocation().y-1;
+					c = 1;
+					for(;j>-1&&c<=i.getCastRange();j--,c++)
+						if(game.getBoard()[currentchampion.getLocation().x][j]!=null)
+						{
+							if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Champion && !game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
+							{
+								left++;
+							}
+						}
+					if(up!=0||right!=0||left!=0||down!=0)
+					{
+						crowdcontrolability = true;
+						
+						int t = (Math.max(Math.max(up, down), Math.max(right, left)));
+						if(t==up)
+							crowdcontrolabilities.put(up,new Pair(((CrowdControlAbility)i),Direction.UP));
+						else if(t==down)
+							crowdcontrolabilities.put(down,new Pair(((CrowdControlAbility)i),Direction.DOWN));
+						else if (t==right)
+							crowdcontrolabilities.put(right,new Pair(((CrowdControlAbility)i),Direction.RIGHT));
+						else
+							crowdcontrolabilities.put(left,new Pair(((CrowdControlAbility)i),Direction.LEFT));
+					}
+				}
+				else
+				{
+					int all=0;
+					pair tm = null;
+					w:for(int j=0;j!=5;j++)
+					{
+						for(int k=0;k!=5;k++)
+						{
+							if(game.getBoard()[j][k]!=null)
+							{
+								if(Math.abs(currentchampion.getLocation().x-j)+(Math.abs(currentchampion.getLocation().y-k))<=i.getCastRange())
+								{
+									 if(game.getBoard()[j][k] instanceof Champion && !game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
+									{
+										all=1;
+										tm = new pair(j,k);
+										break w;
+									}
+								}
+							}
+						}
+					}
+					if(all !=0)
+					{
+						crowdcontrolability =true;
+						crowdcontrolabilities.put(all,new Pair(((CrowdControlAbility)i),tm));
+					}
+				}
+			}
+		}
+	}
+	
+	
 	class Pair
 	{
 		Ability x;
@@ -308,6 +569,16 @@ public class computer {
 		{
 			this.x = x;
 			this.y=y;
+		}
+	}
+	class pair
+	{
+		int x;
+		int y;
+		public pair(int x , int y)
+		{
+			this.x=x;
+			this.y = y;
 		}
 	}
 }
