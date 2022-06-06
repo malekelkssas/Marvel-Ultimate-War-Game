@@ -76,6 +76,7 @@ public class Main extends Application {
 		
 		//scene5();
 		//info.display("captin","captin.jpg");
+		//scene6();
 		
 		window.show();
 	}
@@ -3773,6 +3774,19 @@ public class Main extends Application {
 				}
 			}
 				 );
+		 Button b = new Button("Close");
+		 b.setTextFill(Color.DARKRED);
+		 b.setBackground(Background.fill(Color.BLACK));
+		 b.setTranslateX(0);
+		 b.setTranslateY(300);
+		 b.setScaleX(4);
+		 b.setScaleY(4);
+		 b.setOnAction(e ->
+		 {
+			 window.close();
+		 }
+				 );
+		 sp.getChildren().add(b);
 		 Scene scene = new Scene(sp);
 		 window.setScene(scene);
 		 
@@ -3983,6 +3997,7 @@ public class Main extends Application {
 			if(i==game.getFirstPlayer().getLeader()||i==game.getSecondPlayer().getLeader())
 			{
 				tmp.append("-Leader: "+i.getName()+":  "+getins(i)+'\n');
+				tmp.append("- Leader Ability: "+(game.getFirstPlayer().getTeam().contains(i)?(!game.isFirstLeaderAbilityUsed()?("Not Used"):("Used")):((!game.isSecondLeaderAbilityUsed()?("Not Used"):("Used"))))+'\n');
 				tmp.append("    currentHP: "+i.getCurrentHP()+'\n');
 				tmp.append("    CurrentActionPoints: "+i.getCurrentActionPoints()+'\n');
 				tmp.append("    attackDamage: "+i.getAttackDamage()+'\n');

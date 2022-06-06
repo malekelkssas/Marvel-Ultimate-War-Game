@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 import engine.Game;
@@ -15,6 +16,8 @@ import model.world.Champion;
 import model.world.Cover;
 import model.world.Damageable;
 import model.world.Direction;
+import model.world.Hero;
+import model.world.Villain;
 
 public class computer {
 	private static Game game;
@@ -24,6 +27,8 @@ public class computer {
 	private static boolean attackability;
 	private static boolean healingability;
 	private static boolean crowdcontrolability;
+	private static boolean leaderab;
+	private static boolean move;
 	private static TreeMap<Integer,Pair> damageabilities;
 	private static TreeMap<Integer,Pair> healingabilities;
 	private static TreeMap<Integer,Pair> crowdcontrolabilities;
@@ -39,7 +44,7 @@ public class computer {
 		currentchampion = game.getCurrentChampion();
 
 	}
-	public void getinattackrange()
+	private void getinattackrange()
 	{
 		for(int i=0;i!=5;i++)
 		{
@@ -47,21 +52,23 @@ public class computer {
 			{
 				if(game.getBoard()[i][j]!=null)
 				{
+					if(Math.abs(currentchampion.getLocation().x-i)+(Math.abs(currentchampion.getLocation().y-j))<=currentchampion.getAttackRange())
+					{
 					if(game.getBoard()[i][j] instanceof Cover)
 						inattackcover.put(((Cover) game.getBoard()[i][j]).getCurrentHP(),(Cover) game.getBoard()[i][j]);
 					else
 					{
-						if(Math.abs(currentchampion.getLocation().x-i)+(Math.abs(currentchampion.getLocation().y-j))<=currentchampion.getAttackRange())
-						{
 							if(!game.checkfriend(currentchampion,(Champion) game.getBoard()[i][j]))
 								inattackrange.put(((Champion) game.getBoard()[i][j]).getCurrentHP(), currentchampion);
-						}
 					}
+				}
 				}
 			}
 		}
+		if(inattackcover.size()!=0|| inattackrange.size()!=0)
+			attack = true;
 	}
-	public void damageability()
+	private void damageability()
 	{
 		for(Effect i:currentchampion.getAppliedEffects())
 			if(i instanceof Silence)
@@ -197,7 +204,7 @@ public class computer {
 			}
 		}
 	}
-	public void healingability()
+	private void healingability()
 	{
 			for(Effect i:currentchampion.getAppliedEffects())
 				if(i instanceof Silence)
@@ -320,7 +327,7 @@ public class computer {
 				}
 			}
 	}
-	public void crowdcontrolability()
+	private void crowdcontrolability()
 	{
 		for(Effect i:currentchampion.getAppliedEffects())
 			if(i instanceof Silence)
@@ -559,8 +566,91 @@ public class computer {
 			}
 		}
 	}
-	
-	
+	private void useleaderab()
+	{
+		Champion current = game.getCurrentChampion();
+		if(game.getFirstPlayer().getLeader()!=current || game.isFirstLeaderAbilityUsed())
+		{
+			return;
+		}
+		else
+		{
+			if(current instanceof Hero)
+			{
+				int c =0;
+				for(Champion i : game.getFirstPlayer().getTeam())
+				{
+					if(i.getCurrentHP()< i.getMaxHP()/1.3)
+						c++;
+				}
+				if(c>=2)
+					leaderab = true;
+			}
+			else if (current instanceof Villain)
+			{
+				int c =0;
+				for(Champion i : game.getSecondPlayer().getTeam())
+				{
+					if(i.getCurrentHP()< (int)(i.getMaxHP()*0.3))
+						c++;
+				}
+				if(c>=2)
+					leaderab = true;
+			}
+			else
+			{
+				leaderab = true;
+			}
+		}
+		
+	}
+	private static int best;
+	private static ArrayList<Direction> m;
+	private static boolean [][] grid;
+	private void move()
+	{
+		Champion current =  game.getCurrentChampion();
+		m = new ArrayList<>();
+		grid = new boolean [5][5];
+		best = Integer.MAX_VALUE;
+		grid[current.getLocation().x][current.getLocation().y] = false;
+		graph(0,current.getLocation().x,current.getLocation().y,false,new ArrayList<Direction>());
+		
+	}
+	public void graph(int c,int i,int j,boolean t , ArrayList<Direction> di)
+	{
+		if(t&&game.getBoard()[i][j]!=null)
+		{
+			if(game.getBoard()[i][j] instanceof Champion)
+				if(game.getFirstPlayer().getTeam().contains(((Champion)game.getBoard()[i][j])))
+				{
+					if(c<best)
+					{
+						best = c;
+						move = true;
+						m = di;
+					}
+				}
+			return;
+		}
+		ArrayList<Direction> up = (ArrayList<Direction>) di.clone();
+		up.add(Direction.UP);
+		ArrayList<Direction> down = (ArrayList<Direction>) di.clone();
+		down.add(Direction.DOWN);
+		ArrayList<Direction> right = (ArrayList<Direction>) di.clone();
+		right.add(Direction.RIGHT);
+		ArrayList<Direction> left = (ArrayList<Direction>) di.clone();
+		left.add(Direction.LEFT);
+		if(i+1<5)
+			graph(c+1, i+1, j, true, up);
+		if(i-1>-1)
+			graph(c+1, i-1, j, true, down);
+		if(j+1<5)
+			graph(c+1, i, j+1, true, right);
+		if(j-1>-1)
+			graph(c+1, i, j-1, true, left);
+		
+	}
 	class Pair
 	{
 		Ability x;
@@ -581,4 +671,5 @@ public class computer {
 			this.y = y;
 		}
 	}
+	
 }
