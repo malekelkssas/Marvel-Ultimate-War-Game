@@ -4,11 +4,19 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import engine.Game;
+import exceptions.AbilityUseException;
+import exceptions.ChampionDisarmedException;
+import exceptions.InvalidTargetException;
+import exceptions.LeaderAbilityAlreadyUsedException;
+import exceptions.LeaderNotCurrentException;
+import exceptions.NotEnoughResourcesException;
+import exceptions.UnallowedMovementException;
 import model.abilities.Ability;
 import model.abilities.AreaOfEffect;
 import model.abilities.CrowdControlAbility;
 import model.abilities.DamagingAbility;
 import model.abilities.HealingAbility;
+import model.effects.Disarm;
 import model.effects.Effect;
 import model.effects.EffectType;
 import model.effects.Silence;
@@ -21,8 +29,8 @@ import model.world.Villain;
 
 public class computer {
 	private static Game game;
-	private static TreeMap<Integer,Champion> inattackrange;
-	private static TreeMap<Integer,Cover> inattackcover;
+	private static TreeMap<Integer,Direction> inattackrange;
+	private static TreeMap<Integer,Direction> inattackcover;
 	private static boolean attack; 
 	private static boolean attackability;
 	private static boolean healingability;
@@ -33,7 +41,7 @@ public class computer {
 	private static TreeMap<Integer,Pair> healingabilities;
 	private static TreeMap<Integer,Pair> crowdcontrolabilities;
 	private static Champion currentchampion;
-	public void play(Game originalgame)
+	public boolean play(Game originalgame) throws LeaderAbilityAlreadyUsedException, LeaderNotCurrentException, CloneNotSupportedException, AbilityUseException, NotEnoughResourcesException, InvalidTargetException, ChampionDisarmedException, UnallowedMovementException
 	{
 		game = originalgame;
 		inattackrange = new TreeMap<>();
@@ -42,27 +50,160 @@ public class computer {
 		 healingabilities = new TreeMap<>();
 		 crowdcontrolabilities = new TreeMap<>();
 		currentchampion = game.getCurrentChampion();
-
+		attack=false;
+		attackability = false;
+		healingability = false;
+		crowdcontrolability = false;
+		leaderab = false;
+		move = false;
+		useleaderab();
+		if(leaderab)
+		{
+			game.useLeaderAbility();
+		}
+		else
+		{
+			healingability();
+			if(healingability)
+			{
+				if(healingabilities.get(healingabilities.lastKey()).y.equals(null))
+					game.castAbility(healingabilities.get(healingabilities.lastKey()).x);
+				else if(healingabilities.get(healingabilities.lastKey()).y instanceof Direction)
+				{
+					game.castAbility(healingabilities.get(healingabilities.lastKey()).x,(Direction) healingabilities.get(healingabilities.lastKey()).y);
+				}
+				else
+				{
+					game.castAbility(healingabilities.get(healingabilities.lastKey()).x,((pair)healingabilities.get(healingabilities.lastKey()).y).x,((pair)healingabilities.get(healingabilities.lastKey()).y).y);
+				}
+			}
+			else
+			{
+				damageability();
+				if(attackability)
+				{
+					if(damageabilities.get(damageabilities.lastKey()).y.equals(null))
+						game.castAbility(damageabilities.get(damageabilities.lastKey()).x);
+					else if(damageabilities.get(damageabilities.lastKey()).y instanceof Direction)
+					{
+						game.castAbility(damageabilities.get(damageabilities.lastKey()).x,(Direction) damageabilities.get(damageabilities.lastKey()).y);
+					}
+					else
+					{
+						game.castAbility(damageabilities.get(damageabilities.lastKey()).x,((pair)damageabilities.get(damageabilities.lastKey()).y).x,((pair)damageabilities.get(damageabilities.lastKey()).y).y);
+					}
+				}
+				else
+				{
+					crowdcontrolability();
+					if(crowdcontrolability)
+					{
+						if(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y.equals(null))
+							game.castAbility(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).x);
+						else if(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y instanceof Direction)
+						{
+							game.castAbility(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).x,(Direction) crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y);
+						}
+						else
+						{
+							game.castAbility(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).x,((pair)crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y).x,((pair)crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y).y);
+						}
+					}
+					else
+					{
+						getinattackrange();
+						if(attack && inattackrange.size()!=0)
+						{
+							game.attack(inattackrange.get(inattackrange.firstKey()));
+						}
+						else
+						{
+							move();
+							if(move)
+							{
+								game.move(m.get(0));
+							}
+							else
+							{
+								if(attack && inattackcover.size()!=0)
+								{
+									game.attack(inattackcover.get(inattackcover.firstKey()));
+								}
+							}
+						}
+					}
+					
+				}
+			}
+		}
+		return attack |attackability | healingability | crowdcontrolability |leaderab |move;
 	}
 	private void getinattackrange()
 	{
-		for(int i=0;i!=5;i++)
+		for(Effect i:currentchampion.getAppliedEffects())
+			if(i instanceof Disarm)
+				return;
+		if(currentchampion.getCurrentActionPoints()<2)
+			return;
+		int i=currentchampion.getLocation().x+1;
+		int c=1;
+		for(;i<5&&c<=currentchampion.getAttackRange();i++,c++)
 		{
-			for(int j=0;j!=5;j++)
+			if(game.getBoard()[i][currentchampion.getLocation().y]!=null)
 			{
-				if(game.getBoard()[i][j]!=null)
-				{
-					if(Math.abs(currentchampion.getLocation().x-i)+(Math.abs(currentchampion.getLocation().y-j))<=currentchampion.getAttackRange())
-					{
-					if(game.getBoard()[i][j] instanceof Cover)
-						inattackcover.put(((Cover) game.getBoard()[i][j]).getCurrentHP(),(Cover) game.getBoard()[i][j]);
-					else
-					{
-							if(!game.checkfriend(currentchampion,(Champion) game.getBoard()[i][j]))
-								inattackrange.put(((Champion) game.getBoard()[i][j]).getCurrentHP(), currentchampion);
-					}
+				if(game.getBoard()[i][currentchampion.getLocation().y] instanceof Cover)
+					inattackcover.put(((Cover) game.getBoard()[i][currentchampion.getLocation().y]).getCurrentHP(),Direction.UP);
+				else
+					if(!game.checkfriend(game.getCurrentChampion(), ((Champion) game.getBoard()[i][currentchampion.getLocation().y])))
+						inattackrange.put(((Champion) game.getBoard()[i][currentchampion.getLocation().y]).getCurrentHP(),Direction.UP);
+				break;
+			}
+		}
+		i=currentchampion.getLocation().x-1;
+		c=1;
+		for(;i>-1&&c<=currentchampion.getAttackRange();i--,c++)
+		{
+			if(game.getBoard()[i][currentchampion.getLocation().y]!=null)
+			{
+				if(game.getBoard()[i][currentchampion.getLocation().y] instanceof Cover)
+					inattackcover.put(((Cover) game.getBoard()[i][currentchampion.getLocation().y]).getCurrentHP(),Direction.DOWN);
+				else {
+					if(!game.checkfriend(game.getCurrentChampion(), ((Champion) game.getBoard()[i][currentchampion.getLocation().y])))
+					inattackrange.put(((Champion) game.getBoard()[i][currentchampion.getLocation().y]).getCurrentHP(),Direction.DOWN);
 				}
+				break;
+			}
+		}
+		i=currentchampion.getLocation().y-1;
+		c=1;
+		for(;i>-1&&c<=currentchampion.getAttackRange();i--,c++)
+		{
+			if(game.getBoard()[currentchampion.getLocation().x][i]!=null)
+			{
+				
+				if(game.getBoard()[currentchampion.getLocation().x][i] instanceof Cover)
+					inattackcover.put(((Cover) game.getBoard()[currentchampion.getLocation().x][i]).getCurrentHP(),Direction.LEFT);
+				else {
+					if(!game.checkfriend(game.getCurrentChampion(), ((Champion) game.getBoard()[currentchampion.getLocation().x][i])))
+					inattackrange.put(((Champion) game.getBoard()[currentchampion.getLocation().x][i]).getCurrentHP(),Direction.LEFT);
 				}
+				break;
+				
+			}
+		}
+		i=currentchampion.getLocation().y+1;
+		c=1;
+		for(;i<5&&c<=currentchampion.getAttackRange();i++,c++)
+		{
+			if(game.getBoard()[currentchampion.getLocation().x][i]!=null)
+			{
+				if(game.getBoard()[currentchampion.getLocation().x][i] instanceof Cover)
+					inattackcover.put(((Cover) game.getBoard()[currentchampion.getLocation().x][i]).getCurrentHP(),Direction.RIGHT);
+				else {
+					if(!game.checkfriend(game.getCurrentChampion(), ((Champion) game.getBoard()[currentchampion.getLocation().x][i])))
+					inattackrange.put(((Champion) game.getBoard()[currentchampion.getLocation().x][i]).getCurrentHP(),Direction.RIGHT);
+				}
+				break;
 			}
 		}
 		if(inattackcover.size()!=0|| inattackrange.size()!=0)
@@ -610,6 +751,10 @@ public class computer {
 	private void move()
 	{
 		Champion current =  game.getCurrentChampion();
+		if(currentchampion.getCondition().name().equals("ROOTED"))
+			return;
+		if(currentchampion.getCurrentActionPoints()<1)
+			return ;
 		m = new ArrayList<>();
 		grid = new boolean [5][5];
 		best = Integer.MAX_VALUE;
