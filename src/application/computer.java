@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -41,7 +42,7 @@ public class computer {
 	private static TreeMap<Integer,Pair> healingabilities;
 	private static TreeMap<Integer,Pair> crowdcontrolabilities;
 	private static Champion currentchampion;
-	public boolean play(Game originalgame) throws LeaderAbilityAlreadyUsedException, LeaderNotCurrentException, CloneNotSupportedException, AbilityUseException, NotEnoughResourcesException, InvalidTargetException, ChampionDisarmedException, UnallowedMovementException
+	public static boolean play(Game originalgame) throws LeaderAbilityAlreadyUsedException, LeaderNotCurrentException, CloneNotSupportedException, AbilityUseException, NotEnoughResourcesException, InvalidTargetException, ChampionDisarmedException, UnallowedMovementException, InterruptedException, IOException
 	{
 		game = originalgame;
 		inattackrange = new TreeMap<>();
@@ -66,7 +67,7 @@ public class computer {
 			healingability();
 			if(healingability)
 			{
-				if(healingabilities.get(healingabilities.lastKey()).y.equals(null))
+				if(healingabilities.get(healingabilities.lastKey()).y == null)
 					game.castAbility(healingabilities.get(healingabilities.lastKey()).x);
 				else if(healingabilities.get(healingabilities.lastKey()).y instanceof Direction)
 				{
@@ -74,7 +75,7 @@ public class computer {
 				}
 				else
 				{
-					game.castAbility(healingabilities.get(healingabilities.lastKey()).x,((pair)healingabilities.get(healingabilities.lastKey()).y).x,((pair)healingabilities.get(healingabilities.lastKey()).y).y);
+					game.castAbility(healingabilities.get(healingabilities.lastKey()).x,((pair2)healingabilities.get(healingabilities.lastKey()).y).x,((pair2)healingabilities.get(healingabilities.lastKey()).y).y);
 				}
 			}
 			else
@@ -82,7 +83,7 @@ public class computer {
 				damageability();
 				if(attackability)
 				{
-					if(damageabilities.get(damageabilities.lastKey()).y.equals(null))
+					if(damageabilities.get(damageabilities.lastKey()).y == null)
 						game.castAbility(damageabilities.get(damageabilities.lastKey()).x);
 					else if(damageabilities.get(damageabilities.lastKey()).y instanceof Direction)
 					{
@@ -90,7 +91,7 @@ public class computer {
 					}
 					else
 					{
-						game.castAbility(damageabilities.get(damageabilities.lastKey()).x,((pair)damageabilities.get(damageabilities.lastKey()).y).x,((pair)damageabilities.get(damageabilities.lastKey()).y).y);
+						game.castAbility(damageabilities.get(damageabilities.lastKey()).x,((pair2)damageabilities.get(damageabilities.lastKey()).y).x,((pair2)damageabilities.get(damageabilities.lastKey()).y).y);
 					}
 				}
 				else
@@ -98,7 +99,7 @@ public class computer {
 					crowdcontrolability();
 					if(crowdcontrolability)
 					{
-						if(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y.equals(null))
+						if(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y == null)
 							game.castAbility(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).x);
 						else if(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y instanceof Direction)
 						{
@@ -106,7 +107,7 @@ public class computer {
 						}
 						else
 						{
-							game.castAbility(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).x,((pair)crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y).x,((pair)crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y).y);
+							game.castAbility(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).x,((pair2)crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y).x,((pair2)crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y).y);
 						}
 					}
 					else
@@ -138,8 +139,9 @@ public class computer {
 		}
 		return attack |attackability | healingability | crowdcontrolability |leaderab |move;
 	}
-	private void getinattackrange()
+	private static void getinattackrange()
 	{
+		System.out.println("st : getinattackrange");
 		for(Effect i:currentchampion.getAppliedEffects())
 			if(i instanceof Disarm)
 				return;
@@ -208,9 +210,12 @@ public class computer {
 		}
 		if(inattackcover.size()!=0|| inattackrange.size()!=0)
 			attack = true;
+		System.out.println("end : getinattackrange");
+		System.out.println("---------------->"+attack);
 	}
-	private void damageability()
+	private static void damageability()
 	{
+		System.out.println("st : damageability");
 		for(Effect i:currentchampion.getAppliedEffects())
 			if(i instanceof Silence)
 				return;
@@ -229,8 +234,10 @@ public class computer {
 						{
 							if(Math.abs(currentchampion.getLocation().x-j)+(Math.abs(currentchampion.getLocation().y-k))<=i.getCastRange())
 							{
+								if(game.getBoard()[j][k] instanceof Champion) {
 								if(!game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
 									all++;
+								}
 							}
 						}
 					}
@@ -248,7 +255,7 @@ public class computer {
 				for(;j<5&&c<=i.getCastRange();j++,c++)
 					if(game.getBoard()[j][currentchampion.getLocation().y]!=null)
 					{
-						if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Cover||!game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
+						if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Champion &&!game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
 						{
 							up++;
 						}
@@ -259,7 +266,7 @@ public class computer {
 				for(;j>-1&&c<=i.getCastRange();j--,c++)
 					if(game.getBoard()[j][currentchampion.getLocation().y]!=null)
 					{
-						if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Cover||!game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
+						if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Champion &&!game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
 						{
 							down++;
 						}
@@ -270,7 +277,7 @@ public class computer {
 				for(;j<5&&c<=i.getCastRange();j++,c++)
 					if(game.getBoard()[currentchampion.getLocation().x][j]!=null)
 					{
-						if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Cover||!game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
+						if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Champion &&!game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
 						{
 							right++;
 						}
@@ -281,7 +288,7 @@ public class computer {
 				for(;j>-1&&c<=i.getCastRange();j--,c++)
 					if(game.getBoard()[currentchampion.getLocation().x][j]!=null)
 					{
-						if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Cover||!game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
+						if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Champion &&!game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
 						{
 							left++;
 						}
@@ -304,8 +311,7 @@ public class computer {
 			else
 			{
 				int all=Integer.MAX_VALUE;
-				pair tm = null;
-				boolean findcham = false;
+				pair2 tm = null;
 				for(int j=0;j!=5;j++)
 				{
 					for(int k=0;k!=5;k++)
@@ -314,23 +320,13 @@ public class computer {
 						{
 							if(Math.abs(currentchampion.getLocation().x-j)+(Math.abs(currentchampion.getLocation().y-k))<=i.getCastRange())
 							{
-								if((game.getBoard()[j][k] instanceof Cover && !findcham))
+								if(game.getBoard()[j][k] instanceof Champion &&!game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
 								{
-									int tmp = all;
-									all = Math.min(all,((Damageable)game.getBoard()[j][k]).getCurrentHP());
-									if(tmp !=all)
-									{
-										tm = new pair(j,k);
-									}
-								}
-								else if(game.getBoard()[j][k] instanceof Champion &&!game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
-								{
-									findcham=true;
 									int tmp = all;
 									all = Math.min(all,((Damageable)game.getBoard()[j][k]).getCurrentHP());
 									if(tmp!=all)
 									{
-										tm = new pair(j,k);
+										tm = new pair2(j,k);
 									}
 								}
 							}
@@ -344,9 +340,12 @@ public class computer {
 				}
 			}
 		}
+		System.out.println("end : damageability");
+		System.out.println("-------------------->"+attackability);
 	}
-	private void healingability()
+	private static void healingability()
 	{
+		System.out.println("st : healingability");
 			for(Effect i:currentchampion.getAppliedEffects())
 				if(i instanceof Silence)
 					return;
@@ -440,7 +439,7 @@ public class computer {
 				else
 				{
 					int all=Integer.MIN_VALUE;
-					pair tm = null;
+					pair2 tm = null;
 					for(int j=0;j!=5;j++)
 					{
 						for(int k=0;k!=5;k++)
@@ -454,22 +453,25 @@ public class computer {
 										 int tmp = all;
 										all = Math.max(all,(((Champion) game.getBoard()[j][k]).getMaxHP())-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP())));
 										if(tmp !=all)
-											tm = new pair(j,k);
+											tm = new pair2(j,k);
 									}
 								}
 							}
 						}
 					}
-					if(all !=Integer.MIN_VALUE)
+					if(all !=Integer.MIN_VALUE&& all!=0)
 					{
 						healingability=true;
 						healingabilities.put(all,new Pair(((HealingAbility)i),tm));
 					}
 				}
 			}
+			System.out.println("end : healingability");
+			System.out.println("------------------>"+healingability);
 	}
-	private void crowdcontrolability()
+	private static void crowdcontrolability()
 	{
+		System.out.println("st : crowdcontrolability");
 		for(Effect i:currentchampion.getAppliedEffects())
 			if(i instanceof Silence)
 				return;
@@ -565,7 +567,7 @@ public class computer {
 				else
 				{
 					int all=0;
-					pair tm = null;
+					pair2 tm = null;
 					w:for(int j=0;j!=5;j++)
 					{
 						for(int k=0;k!=5;k++)
@@ -577,7 +579,7 @@ public class computer {
 									 if(game.getBoard()[j][k] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
 									{
 										 all=1;
-										tm = new pair(j,k);
+										tm = new pair2(j,k);
 										break w;
 									}
 								}
@@ -679,7 +681,7 @@ public class computer {
 				else
 				{
 					int all=0;
-					pair tm = null;
+					pair2 tm = null;
 					w:for(int j=0;j!=5;j++)
 					{
 						for(int k=0;k!=5;k++)
@@ -691,7 +693,7 @@ public class computer {
 									 if(game.getBoard()[j][k] instanceof Champion && !game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
 									{
 										all=1;
-										tm = new pair(j,k);
+										tm = new pair2(j,k);
 										break w;
 									}
 								}
@@ -706,9 +708,12 @@ public class computer {
 				}
 			}
 		}
+		System.out.println("st : crowdcontrolability");
+		System.out.println("-------------------->"+crowdcontrolability);
 	}
-	private void useleaderab()
+	private static void useleaderab()
 	{
+		System.out.println("st : useleaderab");
 		Champion current = game.getCurrentChampion();
 		if(game.getFirstPlayer().getLeader()!=current || game.isFirstLeaderAbilityUsed())
 		{
@@ -743,13 +748,15 @@ public class computer {
 				leaderab = true;
 			}
 		}
-		
+		System.out.println("end : useleaderab");
+		System.out.println("------------->"+leaderab);
 	}
 	private static int best;
 	private static ArrayList<Direction> m;
 	private static boolean [][] grid;
-	private void move()
+	private static void move()
 	{
+		System.out.println("st : move");
 		Champion current =  game.getCurrentChampion();
 		if(currentchampion.getCondition().name().equals("ROOTED"))
 			return;
@@ -760,61 +767,51 @@ public class computer {
 		best = Integer.MAX_VALUE;
 		grid[current.getLocation().x][current.getLocation().y] = false;
 		graph(0,current.getLocation().x,current.getLocation().y,false,new ArrayList<Direction>());
-		
+		System.out.println("end : move");
+		System.out.println("------------------->"+move);
 	}
-	public void graph(int c,int i,int j,boolean t , ArrayList<Direction> di)
+	public static void graph(int c,int i,int j,boolean t , ArrayList<Direction> di)
 	{
+		System.out.println("check");
 		if(t&&game.getBoard()[i][j]!=null)
 		{
 			if(game.getBoard()[i][j] instanceof Champion)
-				if(game.getFirstPlayer().getTeam().contains(((Champion)game.getBoard()[i][j])))
+				if(!game.checkfriend(currentchampion, ((Champion)game.getBoard()[i][j])))
 				{
-					if(c<best)
+					if(c<best&&di.size()!=0)
 					{
 						best = c;
-						move = true;
 						m = di;
+						move = true;
 					}
 				}
 			return;
 		}
+		else {
+		grid[i][j] = true;
 		ArrayList<Direction> up = (ArrayList<Direction>) di.clone();
-		up.add(Direction.UP);
+		if(i+1<5&&game.getBoard()[i+1][j]==null)
+			up.add(Direction.UP);
 		ArrayList<Direction> down = (ArrayList<Direction>) di.clone();
+		if(i-1>-1&&game.getBoard()[i-1][j]==null)
 		down.add(Direction.DOWN);
 		ArrayList<Direction> right = (ArrayList<Direction>) di.clone();
+		if(j+1<5 &&game.getBoard()[i][j+1]==null)
 		right.add(Direction.RIGHT);
 		ArrayList<Direction> left = (ArrayList<Direction>) di.clone();
+		if(j-1>-1 &&game.getBoard()[i][j-1]==null)
 		left.add(Direction.LEFT);
-		if(i+1<5)
+		if(i+1<5&& !grid[i+1][j])
 			graph(c+1, i+1, j, true, up);
-		if(i-1>-1)
+		if(i-1>-1 &&!grid[i-1][j])
 			graph(c+1, i-1, j, true, down);
-		if(j+1<5)
+		if(j+1<5 && !grid[i][j+1])
 			graph(c+1, i, j+1, true, right);
-		if(j-1>-1)
+		if(j-1>-1 && !grid[i][j-1])
 			graph(c+1, i, j-1, true, left);
-		
-	}
-	class Pair
-	{
-		Ability x;
-		Object y;
-		public Pair(Ability x , Object y)
-		{
-			this.x = x;
-			this.y=y;
+		grid[i][j] = false;
 		}
 	}
-	class pair
-	{
-		int x;
-		int y;
-		public pair(int x , int y)
-		{
-			this.x=x;
-			this.y = y;
-		}
-	}
-	
 }
+
+

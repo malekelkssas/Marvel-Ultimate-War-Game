@@ -70,10 +70,10 @@ public class Main extends Application {
 	
 		//scene1();
 		
-		scene2();
+		scene2(null);
 		
 		//scene3();
-		
+	
 		//scene5();
 		//info.display("captin","captin.jpg");
 		//scene6();
@@ -102,7 +102,8 @@ public class Main extends Application {
 			
 			@Override
 			public void run() {
-				scene2();
+				playmusic("/game2/sound/background1.mp4");
+				scene2(null);
 				
 			}
 		}
@@ -129,10 +130,129 @@ public class Main extends Application {
 		mediaPlayer.play();
 	}
 	
-	public void scene2()
+	private static boolean twoplayers;
+	private static boolean computermo;
+	public void scene2(Boolean flag)
 	{
-		playmusic("/game2/sound/background1.mp4");//
+		 if (flag==null)
+			{
+				twoplayers = false;
+				computermo = false;
+			
+				
+				Button next = new Button("next");
+				next.setOnAction(e ->
+				{
+					if(!twoplayers && ! computermo)
+						alerts.display("please select mode", "warning");
+					else if (twoplayers)
+						scene2(true);
+					else
+						scene2(false);
+				}
+						);
+				next.setScaleX(2.5);
+				next.setScaleY(1.5);
+				next.setTranslateY(120);
+				Button twoPlayers = new Button("Two Players");
+				twoPlayers.setOnAction(e ->
+				{
+					twoplayers = true;
+					computermo = false;
+				}
+						);
+				twoPlayers.setScaleX(2);
+				twoPlayers.setScaleY(2);
+				Button Computer = new Button("Computer Mode");
+				Computer.setOnAction(e ->
+				{
+					twoplayers = false;;
+					computermo = true;
+				}
+						);
+				Computer.setScaleX(2);
+				Computer.setScaleY(2);
+				Computer.setTranslateY(60);
+				Image image = new Image("3Ghrl1.png");
+				ImageView iv = new ImageView(image);
+
+				iv.setFitWidth(1200);
+				iv.setFitHeight(700);
+				
+				
+				
+				
+				StackPane sp = new StackPane();
+				sp.getChildren().addAll(iv,next,twoPlayers,Computer);
+				
+				
+				
+				Scene scene = new Scene(sp,1200,700);
+				
+				window.setScene(scene);
+			}
+	else if(flag)
+		{
+
+			GridPane grid = new GridPane();
+			
+			grid.setPadding(new Insets(10 ,10 ,10 ,10));
+			grid.setVgap(8);
+			grid.setHgap(8);
+			
+			TextField firstpl = new TextField();
+			firstpl.setPromptText("first player");
+			grid.setConstraints(firstpl, 60, 42);
+			
+			TextField secondpl = new TextField();
+			secondpl.setPromptText("second player");
+			grid.setConstraints(secondpl, 60, 43);
+			
+			Button next = new Button("next");
+			next.setOnAction(e ->
+			{
+				if(check(firstpl,secondpl)) {
+					game = new Game(new Player(firstpl.getText()),new Player(secondpl.getText()));
+					try {
+						game.loadAbilities("/game2/Abilities.csv");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						game.loadChampions("/game2/Champions.csv");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					scene3();
+					//forbedinscene();
+				}
+			}
+					);
+			grid.setConstraints(next, 60, 44);
+			
+			grid.getChildren().addAll(firstpl,secondpl,next);
+			Image image = new Image("3Ghrl1.png");
+			ImageView iv = new ImageView(image);
+
+			iv.setFitWidth(1200);
+			iv.setFitHeight(700);
+			
+			Group group = new Group();
+			group.getChildren().add(iv);
+			
+			StackPane sp = new StackPane();
+			sp.getChildren().add(group);
+			sp.getChildren().add(grid);
+			
+			Scene scene = new Scene(sp,1200,700);
+			
+			window.setScene(scene);
+		}
 		
+	else
+	{
 		GridPane grid = new GridPane();
 		
 		grid.setPadding(new Insets(10 ,10 ,10 ,10));
@@ -142,16 +262,13 @@ public class Main extends Application {
 		TextField firstpl = new TextField();
 		firstpl.setPromptText("first player");
 		grid.setConstraints(firstpl, 60, 42);
-		
-		TextField secondpl = new TextField();
-		secondpl.setPromptText("second player");
-		grid.setConstraints(secondpl, 60, 43);
+
 		
 		Button next = new Button("next");
 		next.setOnAction(e ->
 		{
-			if(check(firstpl,secondpl)) {
-				game = new Game(new Player(firstpl.getText()),new Player(secondpl.getText()));
+			if(check(firstpl)) {
+				game = new Game(new Player("Computer"),new Player(firstpl.getText()));
 				try {
 					game.loadAbilities("/game2/Abilities.csv");
 				} catch (IOException e1) {
@@ -171,7 +288,7 @@ public class Main extends Application {
 				);
 		grid.setConstraints(next, 60, 44);
 		
-		grid.getChildren().addAll(firstpl,secondpl,next);
+		grid.getChildren().addAll(firstpl,next);
 		Image image = new Image("3Ghrl1.png");
 		ImageView iv = new ImageView(image);
 
@@ -185,26 +302,12 @@ public class Main extends Application {
 		sp.getChildren().add(group);
 		sp.getChildren().add(grid);
 		
-//		iv.setScaleX(0.5);
-//		iv.setScaleY(0.5);
-//		iv.setX(500);
-//		iv.setY(500);
-		//grid.setConstraints(iv, 53, 31);
-		
-		
-		
-		
-//		grid.getChildren().addAll(group,firstpl,secondpl,next);
-		
-		
-		
-		
 		Scene scene = new Scene(sp,1200,700);
 		
-		//scene.setFill(iv);
 		window.setScene(scene);
-		
 	}
+	}
+
 	
 	static boolean firstpl ;
 	static int firstte ;
@@ -212,6 +315,7 @@ public class Main extends Application {
 	static Champion firstplled;
 	public void scene3()
 	{
+		//playmusic("/game2/sound/background1.mp4");
 		firstpl = false;
 		firstte = 0;
 		firstplte = new ArrayList<>();
@@ -2666,7 +2770,7 @@ public class Main extends Application {
 				if(secondpl&&secondplled!=null) 
 				{
 					try {
-						mediaplayersound.setMute(true);
+						//mediaplayersound.setMute(true);      // i need to back it <----------------------
 						playmusic("/game2/sound/Most Epic Music Ever_ _The Wolf And The Moon_ by BrunuhVille.mp4");
 						Player pl1 = new Player(game.getFirstPlayer().getName());
 						Player pl2 = new Player(game.getSecondPlayer().getName());
@@ -2684,7 +2788,12 @@ public class Main extends Application {
 						game = new Game(pl1, pl2);
 						game.loadAbilities("/game2/Abilities.csv");
 						game.loadChampions("/game2/Champions.csv");
-						scene5();
+						try {
+							scene5();
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -2742,7 +2851,33 @@ public class Main extends Application {
 	//static boolean done;
 	static int i;
 	static int j;
-	public void scene5() throws IOException
+	static boolean use ;
+	static Button b1;
+	static Button b2;
+	static Button b3;
+	static Button b4;
+	static Button b5;
+	static Button b6;
+	static Button b7;
+	static Button b8;
+	static Button b9;
+	static Button b10;
+	static Button b11;
+	static Button b12;
+	static Button b13;
+	static Button b14;
+	static Button b15;
+	static Button b16;
+	static Button b17;
+	static Button b18;
+	static Button b19;
+	static Button b20;
+	static Button b21;
+	static Button b22;
+	static Button b23;
+	static Button b24;
+	static Button b25;
+	public void scene5() throws IOException, InterruptedException
 	{
 		
 		
@@ -2774,7 +2909,7 @@ public class Main extends Application {
 		board = new Button [5][5];
 	
 
-		Button b1 = new Button();
+		b1 = new Button();
 		b1.setScaleX(6);
 		b1.setScaleY(2.5);
 		b1.setTranslateX(-198);
@@ -2782,6 +2917,7 @@ public class Main extends Application {
 		board[0][0] = b1;
 		b1.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=0;
 			j=0;
 			
@@ -2794,13 +2930,13 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+			}
 		}
 		);
 		
 		
 		
-		Button b2 = new Button();
+		b2 = new Button();
 		b2.setScaleX(6);
 		b2.setScaleY(2.5);
 		b2.setTranslateX(-198+99);
@@ -2808,6 +2944,7 @@ public class Main extends Application {
 		board[0][1] = b2;
 		b2.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=0;
 			j=1;
 			
@@ -2820,12 +2957,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-				
+		}
 		}
 		);
 		
 		
-		Button b3 = new Button();
+		b3 = new Button();
 		b3.setScaleX(6);
 		b3.setScaleY(2.5);
 		b3.setTranslateX(-198+99*2);
@@ -2833,6 +2970,7 @@ public class Main extends Application {
 		board[0][2] = b3;
 		b3.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=0;
 			j=2;
 			
@@ -2845,12 +2983,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-				
+		}	
 		}
 		);
 	
 		
-		Button b4 = new Button();
+		b4 = new Button();
 		b4.setScaleX(6);
 		b4.setScaleY(2.5);
 		b4.setTranslateX(-198+99*3);
@@ -2858,6 +2996,7 @@ public class Main extends Application {
 		board[0][3] = b4;
 		b4.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=0;
 			j=3;
 			
@@ -2870,12 +3009,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-				
+		}
 		}
 		);
 	
 		
-		Button b5 = new Button();
+		 b5 = new Button();
 		b5.setScaleX(6);
 		b5.setScaleY(2.5);
 		b5.setTranslateX(-198+99*4);
@@ -2883,6 +3022,7 @@ public class Main extends Application {
 		board[0][4] = b5;
 		b5.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=0;
 			j=4;
 			
@@ -2895,13 +3035,13 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+		}
 		}
 		);
 	
 		
 		
-		Button b6 = new Button();
+		 b6 = new Button();
 		b6.setScaleX(6);
 		b6.setScaleY(2.5);
 		b6.setTranslateX(-198);
@@ -2909,6 +3049,7 @@ public class Main extends Application {
 		board[1][0] = b6;
 		b6.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=1;
 			j=0;
 			
@@ -2921,12 +3062,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-				
+		}
 		}
 		);
 	
 		
-		Button b7 = new Button();
+		 b7 = new Button();
 		b7.setScaleX(6);
 		b7.setScaleY(2.5);
 		b7.setTranslateX(-198+99);
@@ -2934,6 +3075,7 @@ public class Main extends Application {
 		board[1][1] = b7;
 		b7.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=1;
 			j=1;
 			
@@ -2946,13 +3088,13 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-				
+		}
 		}
 		);
 		
 		
 		
-		Button b8 = new Button();
+		 b8 = new Button();
 		b8.setScaleX(6);
 		b8.setScaleY(2.5);
 		b8.setTranslateX(-198+99*2);
@@ -2960,6 +3102,7 @@ public class Main extends Application {
 		board[1][2] = b8;
 		b8.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=1;
 			j=2;
 			
@@ -2972,12 +3115,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-				
+		}
 		}
 		);
 		
 		
-		Button b9 = new Button();
+		 b9 = new Button();
 		b9.setScaleX(6);
 		b9.setScaleY(2.5);
 		b9.setTranslateX(-198+99*3);
@@ -2985,6 +3128,7 @@ public class Main extends Application {
 		board[1][3] = b9;
 		b9.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=1;
 			j=3;
 			
@@ -2997,12 +3141,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+		}
 		}
 		);
 		
 		
-		Button b10 = new Button();
+		 b10 = new Button();
 		b10.setScaleX(6);
 		b10.setScaleY(2.5);
 		b10.setTranslateX(-198+99*4);
@@ -3010,6 +3154,7 @@ public class Main extends Application {
 		board[1][4] = b10;
 		b10.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=1;
 			j=4;
 			
@@ -3022,12 +3167,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-				
+		}
 		}
 		);
 	
 		
-		Button b11 = new Button();
+		 b11 = new Button();
 		b11.setScaleX(6);
 		b11.setScaleY(2.5);
 		b11.setTranslateX(-198);
@@ -3035,6 +3180,7 @@ public class Main extends Application {
 		board[2][0] = b11;
 		b11.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=2;
 			j=0;
 			
@@ -3047,12 +3193,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+		}
 		}
 		);
 		
 		
-		Button b12 = new Button();
+		 b12 = new Button();
 		b12.setScaleX(6);
 		b12.setScaleY(2.5);
 		b12.setTranslateX(-198+99);
@@ -3060,6 +3206,7 @@ public class Main extends Application {
 		board[2][1] = b12;
 		b12.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=2;
 			j=1;
 			
@@ -3072,12 +3219,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+		}
 		}
 		);
 		
 		
-		Button b13 = new Button();
+		 b13 = new Button();
 		b13.setScaleX(6);
 		b13.setScaleY(2.5);
 		b13.setTranslateX(-198+99*2);
@@ -3085,6 +3232,7 @@ public class Main extends Application {
 		board[2][2] = b13;
 		b13.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=2;
 			j=2;
 			
@@ -3097,12 +3245,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+		}
 		}
 		);
 		
 		
-		Button b14 = new Button();
+		 b14 = new Button();
 		b14.setScaleX(6);
 		b14.setScaleY(2.5);
 		b14.setTranslateX(-198+99*3);
@@ -3110,6 +3258,7 @@ public class Main extends Application {
 		board[2][3] = b14;
 		b14.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=2;
 			j=3;
 			
@@ -3122,12 +3271,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+		}
 		}
 		);
 		
 		
-		Button b15 = new Button();
+		 b15 = new Button();
 		b15.setScaleX(6);
 		b15.setScaleY(2.5);
 		b15.setTranslateX(-198+99*4);
@@ -3135,6 +3284,7 @@ public class Main extends Application {
 		board[2][4] = b15;
 		b15.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=2;
 			j=4;
 			
@@ -3147,12 +3297,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+		}
 		}
 		);
 	
 		
-		Button b16 = new Button();
+		 b16 = new Button();
 		b16.setScaleX(6);
 		b16.setScaleY(2.5);
 		b16.setTranslateX(-198);
@@ -3160,6 +3310,7 @@ public class Main extends Application {
 		board[3][0] = b16;
 		b16.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=3;
 			j=0;
 			
@@ -3172,12 +3323,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+		}
 		}
 		);
 		
 		
-		Button b17 = new Button();
+		 b17 = new Button();
 		b17.setScaleX(6);
 		b17.setScaleY(2.5);
 		b17.setTranslateX(-198+99);
@@ -3185,6 +3336,7 @@ public class Main extends Application {
 		board[3][1] = b17;
 		b17.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=3;
 			j=1;
 			
@@ -3197,12 +3349,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-				
+		}
 		}
 		);
 		
 		
-		Button b18 = new Button();
+		 b18 = new Button();
 		b18.setScaleX(6);
 		b18.setScaleY(2.5);
 		b18.setTranslateX(-198+99*2);
@@ -3210,6 +3362,7 @@ public class Main extends Application {
 		board[3][2] = b18;
 		b18.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=3;
 			j=2;
 			
@@ -3222,12 +3375,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+			}
 		}
 		);
 	
 		
-		Button b19 = new Button();
+		 b19 = new Button();
 		b19.setScaleX(6);
 		b19.setScaleY(2.5);
 		b19.setTranslateX(-198+99*3);
@@ -3235,6 +3388,7 @@ public class Main extends Application {
 		board[3][3] = b19;
 		b19.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=3;
 			j=3;
 			
@@ -3247,12 +3401,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+			}
 		}
 		);
 	
 		
-		Button b20 = new Button();
+		 b20 = new Button();
 		b20.setScaleX(6);
 		b20.setScaleY(2.5);
 		b20.setTranslateX(-198+99*4);
@@ -3260,6 +3414,7 @@ public class Main extends Application {
 		board[3][4] = b20;
 		b20.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=3;
 			j=4;
 			
@@ -3272,14 +3427,14 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-				
+			}
 		}
 		);
 
 
 		
 
-		Button b21 = new Button();
+		 b21 = new Button();
 		b21.setScaleX(6);
 		b21.setScaleY(2.5);
 		b21.setTranslateX(-198);
@@ -3287,6 +3442,7 @@ public class Main extends Application {
 		board[4][0] = b21;
 		b21.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=4;
 			j=0;
 			
@@ -3299,12 +3455,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+			}
 		}
 		);
 	
 		
-		Button b22 = new Button();
+		 b22 = new Button();
 		b22.setScaleX(6);
 		b22.setScaleY(2.5);
 		b22.setTranslateX(-198+99);
@@ -3312,6 +3468,7 @@ public class Main extends Application {
 		board[4][1] = b22;
 		b22.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=4;
 			j=1;
 			
@@ -3324,12 +3481,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+			}
 		}
 		);
 		
 		
-		Button b23 = new Button();
+		 b23 = new Button();
 		b23.setScaleX(6);
 		b23.setScaleY(2.5);
 		b23.setTranslateX(-198+99*2);
@@ -3337,6 +3494,7 @@ public class Main extends Application {
 		board[4][2] = b23;
 		b23.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=4;
 			j=2;
 			
@@ -3349,12 +3507,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+			}
 		}
 		);
 		
 		
-		Button b24 = new Button();
+		 b24 = new Button();
 		b24.setScaleX(6);
 		b24.setScaleY(2.5);
 		b24.setTranslateX(-198+99*3);
@@ -3362,6 +3520,7 @@ public class Main extends Application {
 		board[4][3] = b24;
 		b24.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=4;
 			j=3;
 			
@@ -3374,12 +3533,12 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+			}
 		}
 		);
 	
 		
-		Button b25 = new Button();
+		 b25 = new Button();
 		b25.setScaleX(6);
 		b25.setScaleY(2.5);
 		b25.setTranslateX(-198+99*4);
@@ -3387,6 +3546,7 @@ public class Main extends Application {
 		board[4][4] = b25;
 		b25.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			i=4;
 			j=4;
 	
@@ -3399,7 +3559,7 @@ public class Main extends Application {
 					String []tmp = getall((Damageable) game.getBoard()[i][j]);
 					info.display(tmp[0], tmp[1]);
 				}
-			
+			}
 		}
 		);
 		
@@ -3466,12 +3626,13 @@ public class Main extends Application {
 		useleaderability.setTextFill(Color.DARKGREEN);
 		useleaderability.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			try {
 			game.useLeaderAbility();
 			try {
-				scene5();
-			} catch (IOException e1) {
-				
+				updatescene5();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			if(game.checkGameOver()!=null) {
@@ -3491,6 +3652,7 @@ public class Main extends Application {
 			}
 			catch (CloneNotSupportedException e2) {
 				System.out.println("lol");
+			}
 			}
 		}
 		);
@@ -3517,6 +3679,7 @@ public class Main extends Application {
 		useability.setTextFill(Color.DARKGREEN);
 		useability.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			Object [] tm = chooseab.display(((Champion)game.getTurnOrder().peekMin()).getAbilities());
 			if((boolean) tm[0])
 			{
@@ -3528,9 +3691,9 @@ public class Main extends Application {
 						try {
 						game.castAbility((Ability)tm[1], (Direction)tm2[1]);
 						try {
-							scene5();
-						} catch (IOException e1) {
-							
+							updatescene5();
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						if(game.checkGameOver()!=null) {
@@ -3558,9 +3721,9 @@ public class Main extends Application {
 							try {
 								game.castAbility((Ability) tm[1], (int)tm2[1],(int) tm2[2]);
 								try {
-									scene5();
-								} catch (IOException e1) {
-									
+									updatescene5();
+								} catch (InterruptedException e1) {
+									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 								if(game.checkGameOver()!=null) {
@@ -3580,9 +3743,9 @@ public class Main extends Application {
 					try {
 						game.castAbility((Ability) tm[1]);
 						try {
-							scene5();
-						} catch (IOException e1) {
-							
+							updatescene5();
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						if(game.checkGameOver()!=null) {
@@ -3594,6 +3757,7 @@ public class Main extends Application {
 						alerts.display(e1.getMessage(), "warning");
 					}
 				}
+			}
 			}
 		}
 		);
@@ -3619,6 +3783,7 @@ public class Main extends Application {
 			move.setTextFill(Color.DARKGREEN);
 		move.setOnAction(e ->
 		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 			Object [] tm = direction.display();
 			if((boolean) tm[0])
 			{
@@ -3626,9 +3791,9 @@ public class Main extends Application {
 				{
 					game.move(((Direction) tm[1]));
 					try {
-						scene5();
-					} catch (IOException e1) {
-						
+						updatescene5();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					if(game.checkGameOver()!=null) {
@@ -3642,6 +3807,7 @@ public class Main extends Application {
 				catch (NotEnoughResourcesException e2) {
 					alerts.display(e2.getMessage(), "warning");
 				}
+			}
 			}
 		}	
 				);
@@ -3669,6 +3835,7 @@ public class Main extends Application {
 				attack.setTextFill(Color.DARKGREEN);
 				attack.setOnAction(e ->
 				{
+					if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 					Object [] tm = direction.display();
 					if((boolean) tm[0])
 					{
@@ -3676,9 +3843,9 @@ public class Main extends Application {
 						{
 							game.attack((Direction) tm[1]);
 							try {
-								scene5();
-							} catch (IOException e1) {
-								
+								updatescene5();
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 							if(game.checkGameOver()!=null) {
@@ -3694,6 +3861,7 @@ public class Main extends Application {
 						{
 							alerts.display(e2.getMessage(), "warning");
 						}
+					}
 					}
 				}
 						);
@@ -3720,14 +3888,62 @@ public class Main extends Application {
 				endturn.setTextFill(Color.DARKGREEN);
 				endturn.setOnAction(e ->
 				{
+					if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
 					game.endTurn();
 					try {
-						scene5();
-					} catch (IOException e1) {
 						
+						updatescene5();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
+					}
+					z :while(computermo && game.getFirstPlayer().getTeam().contains(game.getCurrentChampion()))
+					{
+						System.out.println("--------------------------< >--------------------------"+game.getCurrentChampion().getName());
+						System.out.println("here");
+						use = true;
+						w : while(use && game.getCurrentChampion().getCurrentActionPoints()>0)
+						{
+							System.out.println("here2");
+							 use=false;
+								try {
+									use =computer.play(game);
+								} catch (Exception e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} 
+								if(game.checkGameOver()!=null) {
+									try {
+										
+										updatescene5();
+									} catch (InterruptedException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									alerts.display(game.checkGameOver().getName()+" Winner ", "end game");
+									scene6();
+									break z;
+									
+									
+								}
+									try {
+										updatescene5();
+									} catch (InterruptedException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								
+						}
+						game.endTurn();
+						try {
+							updatescene5();
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						System.out.println("-------------------> new Champion <--------------------"+game.getCurrentChampion().getName());
+					}
 				}
 				);
 				
@@ -3754,6 +3970,56 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(sp2,1200,700);
 		window.setScene(scene);
+		window.show();
+		if (computermo && game.getFirstPlayer().getTeam().contains(game.getCurrentChampion()))
+		{
+			z :while(computermo && game.getFirstPlayer().getTeam().contains(game.getCurrentChampion()))
+			{
+				use = true;
+				System.out.println("--------------------------< >--------------------------"+game.getCurrentChampion().getName());
+				w : while(use && game.getCurrentChampion().getCurrentActionPoints()>0)
+				{
+					 use=false;
+						try {
+							use =computer.play(game);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} 
+						if(game.checkGameOver()!=null) {
+							try {
+								
+								updatescene5();
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							alerts.display(game.checkGameOver().getName()+" Winner ", "end game");
+							scene6();
+							break z;
+							
+							
+						}
+							try {
+								updatescene5();
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						
+				}
+				game.endTurn();
+				try {
+					updatescene5();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println("-------------------> new Champion <--------------------"+game.getCurrentChampion().getName());
+			}
+		}
+	
+	
 		
 	}
 	public void scene6()
@@ -3793,7 +4059,7 @@ public class Main extends Application {
 	}
 	public void loadchampionturn()
 	{
-		nextcha = new HBox();
+		nextcha.getChildren().clear();
 		nextcha.setTranslateY(29);
 		nextcha.setTranslateX(490);
 		int i=0;
@@ -3953,6 +4219,686 @@ public class Main extends Application {
 			}
 		}
 	}
+	private void updatescene5() throws InterruptedException
+	{
+
+		b1.setGraphic(null);
+		b1.setScaleX(6);
+		b1.setScaleY(2.5);
+		b1.setTranslateX(-198);
+		b1.setTranslateY(-140);
+		board[0][0] = b1;
+		b1.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=0;
+			j=0;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+			}
+		}
+		);
+		
+		
+		
+		b2.setGraphic(null);
+		b2.setScaleX(6);
+		b2.setScaleY(2.5);
+		b2.setTranslateX(-198+99);
+		b2.setTranslateY(-140);
+		board[0][1] = b2;
+		b2.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=0;
+			j=1;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		b3.setGraphic(null);
+		b3.setScaleX(6);
+		b3.setScaleY(2.5);
+		b3.setTranslateX(-198+99*2);
+		b3.setTranslateY(-140);
+		board[0][2] = b3;
+		b3.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=0;
+			j=2;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}	
+		}
+		);
+	
+		
+		b4.setGraphic(null);
+		b4.setScaleX(6);
+		b4.setScaleY(2.5);
+		b4.setTranslateX(-198+99*3);
+		b4.setTranslateY(-140);
+		board[0][3] = b4;
+		b4.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=0;
+			j=3;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+	
+		
+		 b5.setGraphic(null);
+		b5.setScaleX(6);
+		b5.setScaleY(2.5);
+		b5.setTranslateX(-198+99*4);
+		b5.setTranslateY(-140);
+		board[0][4] = b5;
+		b5.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=0;
+			j=4;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+	
+		
+		
+		 b6.setGraphic(null);
+		b6.setScaleX(6);
+		b6.setScaleY(2.5);
+		b6.setTranslateX(-198);
+		b6.setTranslateY(-140+70);
+		board[1][0] = b6;
+		b6.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=1;
+			j=0;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+	
+		
+		 b7.setGraphic(null);
+		b7.setScaleX(6);
+		b7.setScaleY(2.5);
+		b7.setTranslateX(-198+99);
+		b7.setTranslateY(-140+70);
+		board[1][1] = b7;
+		b7.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=1;
+			j=1;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		
+		 b8.setGraphic(null);
+		b8.setScaleX(6);
+		b8.setScaleY(2.5);
+		b8.setTranslateX(-198+99*2);
+		b8.setTranslateY(-140+70);
+		board[1][2] = b8;
+		b8.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=1;
+			j=2;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		 b9.setGraphic(null);
+		b9.setScaleX(6);
+		b9.setScaleY(2.5);
+		b9.setTranslateX(-198+99*3);
+		b9.setTranslateY(-140+70);
+		board[1][3] = b9;
+		b9.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=1;
+			j=3;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		 b10.setGraphic(null);
+		b10.setScaleX(6);
+		b10.setScaleY(2.5);
+		b10.setTranslateX(-198+99*4);
+		b10.setTranslateY(-140+70);
+		board[1][4] = b10;
+		b10.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=1;
+			j=4;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+	
+		
+		 b11.setGraphic(null);
+		b11.setScaleX(6);
+		b11.setScaleY(2.5);
+		b11.setTranslateX(-198);
+		b11.setTranslateY(-140+70*2);
+		board[2][0] = b11;
+		b11.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=2;
+			j=0;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		 b12.setGraphic(null);
+		b12.setScaleX(6);
+		b12.setScaleY(2.5);
+		b12.setTranslateX(-198+99);
+		b12.setTranslateY(-140+70*2);
+		board[2][1] = b12;
+		b12.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=2;
+			j=1;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		 b13.setGraphic(null);
+		b13.setScaleX(6);
+		b13.setScaleY(2.5);
+		b13.setTranslateX(-198+99*2);
+		b13.setTranslateY(-140+70*2);
+		board[2][2] = b13;
+		b13.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=2;
+			j=2;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		 b14.setGraphic(null);
+		b14.setScaleX(6);
+		b14.setScaleY(2.5);
+		b14.setTranslateX(-198+99*3);
+		b14.setTranslateY(-140+70*2);
+		board[2][3] = b14;
+		b14.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=2;
+			j=3;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		 b15.setGraphic(null);
+		b15.setScaleX(6);
+		b15.setScaleY(2.5);
+		b15.setTranslateX(-198+99*4);
+		b15.setTranslateY(-140+70*2);
+		board[2][4] = b15;
+		b15.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=2;
+			j=4;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+	
+		
+		 b16.setGraphic(null);
+		b16.setScaleX(6);
+		b16.setScaleY(2.5);
+		b16.setTranslateX(-198);
+		b16.setTranslateY(-140+70*3);
+		board[3][0] = b16;
+		b16.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=3;
+			j=0;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		 b17.setGraphic(null);
+		b17.setScaleX(6);
+		b17.setScaleY(2.5);
+		b17.setTranslateX(-198+99);
+		b17.setTranslateY(-140+70*3);
+		board[3][1] = b17;
+		b17.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=3;
+			j=1;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+		}
+		}
+		);
+		
+		
+		 b18.setGraphic(null);
+		b18.setScaleX(6);
+		b18.setScaleY(2.5);
+		b18.setTranslateX(-198+99*2);
+		b18.setTranslateY(-140+70*3);
+		board[3][2] = b18;
+		b18.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=3;
+			j=2;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+			}
+		}
+		);
+	
+		
+		 b19.setGraphic(null);
+		b19.setScaleX(6);
+		b19.setScaleY(2.5);
+		b19.setTranslateX(-198+99*3);
+		b19.setTranslateY(-140+70*3);
+		board[3][3] = b19;
+		b19.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=3;
+			j=3;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+			}
+		}
+		);
+	
+		
+		 b20.setGraphic(null);
+		b20.setScaleX(6);
+		b20.setScaleY(2.5);
+		b20.setTranslateX(-198+99*4);
+		b20.setTranslateY(-140+70*3);
+		board[3][4] = b20;
+		b20.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=3;
+			j=4;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+			}
+		}
+		);
+
+
+		
+
+		 b21.setGraphic(null);
+		b21.setScaleX(6);
+		b21.setScaleY(2.5);
+		b21.setTranslateX(-198);
+		b21.setTranslateY(-140+70*4);
+		board[4][0] = b21;
+		b21.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=4;
+			j=0;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+			}
+		}
+		);
+	
+		
+		 b22.setGraphic(null);
+		b22.setScaleX(6);
+		b22.setScaleY(2.5);
+		b22.setTranslateX(-198+99);
+		b22.setTranslateY(-140+70*4);
+		board[4][1] = b22;
+		b22.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=4;
+			j=1;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+			}
+		}
+		);
+		
+		
+		 b23.setGraphic(null);
+		b23.setScaleX(6);
+		b23.setScaleY(2.5);
+		b23.setTranslateX(-198+99*2);
+		b23.setTranslateY(-140+70*4);
+		board[4][2] = b23;
+		b23.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=4;
+			j=2;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+			}
+		}
+		);
+		
+		
+		 b24.setGraphic(null);
+		b24.setScaleX(6);
+		b24.setScaleY(2.5);
+		b24.setTranslateX(-198+99*3);
+		b24.setTranslateY(-140+70*4);
+		board[4][3] = b24;
+		b24.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=4;
+			j=3;
+			
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+			}
+		}
+		);
+	
+		
+		 b25.setGraphic(null);
+		b25.setScaleX(6);
+		b25.setScaleY(2.5);
+		b25.setTranslateX(-198+99*4);
+		b25.setTranslateY(-140+70*4);
+		board[4][4] = b25;
+		b25.setOnAction(e ->
+		{
+			if(twoplayers||game.getSecondPlayer().getTeam().contains(game.getCurrentChampion())){
+			i=4;
+			j=4;
+	
+				if(game.getBoard()[i][j] instanceof Cover)
+				{
+					alerts.display(getall((Damageable) game.getBoard()[i][j])[0], "cover");
+				}
+				else if(game.getBoard()[i][j] instanceof Champion)
+				{
+					String []tmp = getall((Damageable) game.getBoard()[i][j]);
+					info.display(tmp[0], tmp[1]);
+				}
+			}
+		}
+		);
+
+		for(int i=0;i!=5;i++)
+		{
+			for(int j=0;j!=5;j++)
+			{
+				if(game.getBoard()[i][j]!=null)
+				{
+					String tmp = geticon(i,j);
+					Image image = new Image(tmp);
+					ImageView iv = new ImageView(image);
+					iv.setFitHeight(55);
+					iv.setFitWidth(75);
+					board[i][j].setScaleX(1);
+					board[i][j].setScaleY(1);
+					board[i][j].setGraphic(iv);
+				}
+			}
+		}
+		label2(pl3, game.getFirstPlayer().getTeam());
+		label2(pl4, game.getSecondPlayer().getTeam());
+		loadchampionturn();
+		
+		
+	}
 	
 	public boolean isfirstplayerhas(String name)
 	{
@@ -3975,6 +4921,15 @@ public class Main extends Application {
 	private boolean check(TextField firstpl, TextField secondpl)
 	{	
 		if(firstpl.getText().equals("")||secondpl.getText().equals("")) {
+			alerts.display("please ,each player enter his/her name","alert");
+			return false;
+		}
+		return true;
+		
+	}
+	private boolean check(TextField firstpl)
+	{	
+		if(firstpl.getText().equals("")) {
 			alerts.display("please ,each player enter his/her name","alert");
 			return false;
 		}

@@ -749,7 +749,7 @@ public void move(Direction d)throws UnallowedMovementException ,NotEnoughResourc
 		else
 		{
 			if(check==null)
-				throw new InvalidTargetException("can not heal cover");
+				throw new InvalidTargetException("can not use effects on cover");
 			else if(((CrowdControlAbility)a).getEffect().getType().name().equals("BUFF")) {
 				if(!check)
 					throw new InvalidTargetException("Can not buff enemy targets");
