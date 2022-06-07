@@ -3915,7 +3915,6 @@ public class Main extends Application {
 								} 
 								if(game.checkGameOver()!=null) {
 									try {
-										
 										updatescene5();
 									} catch (InterruptedException e1) {
 										// TODO Auto-generated catch block

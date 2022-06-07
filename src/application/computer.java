@@ -60,6 +60,7 @@ public class computer {
 		useleaderab();
 		if(leaderab)
 		{
+			alerts.display(currentchampion.getName()+'\n'+"use leader ability", "computer action");
 			game.useLeaderAbility();
 		}
 		else
@@ -67,6 +68,7 @@ public class computer {
 			healingability();
 			if(healingability)
 			{
+				alerts.display(currentchampion.getName()+'\n'+"use the healing ability : "+'\n'+healingabilities.get(healingabilities.lastKey()).x.getName() , "computer action");
 				if(healingabilities.get(healingabilities.lastKey()).y == null)
 					game.castAbility(healingabilities.get(healingabilities.lastKey()).x);
 				else if(healingabilities.get(healingabilities.lastKey()).y instanceof Direction)
@@ -83,6 +85,7 @@ public class computer {
 				damageability();
 				if(attackability)
 				{
+					alerts.display(currentchampion.getName()+'\n'+"use the damaging ability : "+'\n'+damageabilities.get(damageabilities.lastKey()).x.getName() , "computer action");
 					if(damageabilities.get(damageabilities.lastKey()).y == null)
 						game.castAbility(damageabilities.get(damageabilities.lastKey()).x);
 					else if(damageabilities.get(damageabilities.lastKey()).y instanceof Direction)
@@ -99,6 +102,7 @@ public class computer {
 					crowdcontrolability();
 					if(crowdcontrolability)
 					{
+						alerts.display(currentchampion.getName()+'\n'+"use the crowd control ability : "+'\n'+crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).x.getName() , "computer action");
 						if(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y == null)
 							game.castAbility(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).x);
 						else if(crowdcontrolabilities.get(crowdcontrolabilities.lastKey()).y instanceof Direction)
@@ -115,6 +119,7 @@ public class computer {
 						getinattackrange();
 						if(attack && inattackrange.size()!=0)
 						{
+							alerts.display(currentchampion.getName()+'\n'+"attack : "+'\n'+inattackrange.get(inattackrange.firstKey()).name() , "computer action");
 							game.attack(inattackrange.get(inattackrange.firstKey()));
 						}
 						else
@@ -122,12 +127,14 @@ public class computer {
 							move();
 							if(move)
 							{
+								alerts.display(currentchampion.getName()+'\n'+"move : "+'\n'+m.get(0).name() , "computer action");
 								game.move(m.get(0));
 							}
 							else
 							{
 								if(attack && inattackcover.size()!=0)
 								{
+									alerts.display(currentchampion.getName()+'\n'+"attack : "+'\n'+inattackcover.get(inattackcover.firstKey()).name() , "computer action");
 									game.attack(inattackcover.get(inattackcover.firstKey()));
 								}
 							}
@@ -223,7 +230,27 @@ public class computer {
 		{
 			if(!(i instanceof DamagingAbility)||i.getCurrentCooldown()!=0||(currentchampion.getCurrentActionPoints()<i.getRequiredActionPoints())||(currentchampion.getMana()<i.getManaCost()))
 				continue;
-			if(i.getCastArea().equals(AreaOfEffect.SURROUND)||i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
+			if(i.getCastArea().equals(AreaOfEffect.SURROUND))
+					{
+				int all=0;
+				int k = currentchampion.getLocation().x-1;
+				for(;k<=currentchampion.getLocation().x+1;k++)
+				{
+					for(int j = currentchampion.getLocation().y-1;j<=currentchampion.getLocation().y+1;j++)
+					{
+						if(k<0||k>=5||j<0||j>=5||(k==currentchampion.getLocation().x&&j==currentchampion.getLocation().y))
+							continue;
+						else
+							if(game.getBoard()[k][j]!=null&&game.getBoard()[k][j] instanceof Champion &&!game.checkfriend(currentchampion, (Champion) game.getBoard()[k][j]) )
+								all++;
+					}
+				}
+				if(all!=0) {
+					attackability = true;
+				damageabilities.put(all*((DamagingAbility)i).getDamageAmount(),new Pair(((DamagingAbility)i),null));
+				}
+					}
+			else if(i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
 			{
 				int all=0;
 				for(int j=0;j!=5;j++)
@@ -353,7 +380,27 @@ public class computer {
 			{
 				if(!(i instanceof HealingAbility)||i.getCurrentCooldown()!=0||(currentchampion.getCurrentActionPoints()<i.getRequiredActionPoints())||(currentchampion.getMana()<i.getManaCost()))
 					continue;
-				if(i.getCastArea().equals(AreaOfEffect.SURROUND)||i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
+				if(i.getCastArea().equals(AreaOfEffect.SURROUND))
+				{
+			int all=0;
+			int k = currentchampion.getLocation().x-1;
+			for(;k<=currentchampion.getLocation().x+1;k++)
+			{
+				for(int j = currentchampion.getLocation().y-1;j<=currentchampion.getLocation().y+1;j++)
+				{
+					if(k<0||k>=5||j<0||j>=5||(k==currentchampion.getLocation().x&&j==currentchampion.getLocation().y))
+						continue;
+					else
+						if(game.getBoard()[k][j]!=null&&game.getBoard()[k][j] instanceof Champion &&game.checkfriend(currentchampion, (Champion) game.getBoard()[k][j]) )
+							all++;
+				}
+			}
+			if(all!=0) {
+				healingability = true;
+				healingabilities.put(all,new Pair(((HealingAbility)i),null));
+			}
+			}
+				if(i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
 				{
 					int all=0;
 					for(int j=0;j!=5;j++)
@@ -481,7 +528,27 @@ public class computer {
 				continue;
 			if(((CrowdControlAbility)i).getEffect().getType().equals(EffectType.BUFF))
 			{
-				if(i.getCastArea().equals(AreaOfEffect.SURROUND)||i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
+				if(i.getCastArea().equals(AreaOfEffect.SURROUND))
+				{
+			int all=0;
+			int k = currentchampion.getLocation().x-1;
+			for(;k<=currentchampion.getLocation().x+1;k++)
+			{
+				for(int j = currentchampion.getLocation().y-1;j<=currentchampion.getLocation().y+1;j++)
+				{
+					if(k<0||k>=5||j<0||j>=5||(k==currentchampion.getLocation().x&&j==currentchampion.getLocation().y))
+						continue;
+					else
+						if(game.getBoard()[k][j]!=null&&game.getBoard()[k][j] instanceof Champion &&game.checkfriend(currentchampion, (Champion) game.getBoard()[k][j]) )
+							all++;
+				}
+			}
+			if(all!=0) {
+				crowdcontrolability = true;
+				crowdcontrolabilities.put(all,new Pair(((CrowdControlAbility)i),null));
+			}
+			}
+			else if(i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
 				{
 					int all=0;
 					for(int j=0;j!=5;j++)
@@ -595,7 +662,27 @@ public class computer {
 			}
 			else
 			{
-				if(i.getCastArea().equals(AreaOfEffect.SURROUND)||i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
+				if(i.getCastArea().equals(AreaOfEffect.SURROUND))
+				{
+			int all=0;
+			int k = currentchampion.getLocation().x-1;
+			for(;k<=currentchampion.getLocation().x+1;k++)
+			{
+				for(int j = currentchampion.getLocation().y-1;j<=currentchampion.getLocation().y+1;j++)
+				{
+					if(k<0||k>=5||j<0||j>=5||(k==currentchampion.getLocation().x&&j==currentchampion.getLocation().y))
+						continue;
+					else
+						if(game.getBoard()[k][j]!=null&&game.getBoard()[k][j] instanceof Champion && !game.checkfriend(currentchampion, (Champion) game.getBoard()[k][j]) )
+							all++;
+				}
+			}
+			if(all!=0) {
+				crowdcontrolability = true;
+				crowdcontrolabilities.put(all,new Pair(((CrowdControlAbility)i),null));
+			}
+			}
+			else if(i.getCastArea().equals(AreaOfEffect.TEAMTARGET))
 				{
 					int all=0;
 					for(int j=0;j!=5;j++)
