@@ -3900,12 +3900,9 @@ public class Main extends Application {
 					}
 					z :while(computermo && game.getFirstPlayer().getTeam().contains(game.getCurrentChampion()))
 					{
-						System.out.println("--------------------------< >--------------------------"+game.getCurrentChampion().getName());
-						System.out.println("here");
 						use = true;
 						w : while(use && game.getCurrentChampion().getCurrentActionPoints()>0)
 						{
-							System.out.println("here2");
 							 use=false;
 								try {
 									use =computer.play(game);
@@ -3941,7 +3938,6 @@ public class Main extends Application {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						System.out.println("-------------------> new Champion <--------------------"+game.getCurrentChampion().getName());
 					}
 				}
 				);
@@ -3975,7 +3971,6 @@ public class Main extends Application {
 			z :while(computermo && game.getFirstPlayer().getTeam().contains(game.getCurrentChampion()))
 			{
 				use = true;
-				System.out.println("--------------------------< >--------------------------"+game.getCurrentChampion().getName());
 				w : while(use && game.getCurrentChampion().getCurrentActionPoints()>0)
 				{
 					 use=false;
@@ -4014,7 +4009,6 @@ public class Main extends Application {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				System.out.println("-------------------> new Champion <--------------------"+game.getCurrentChampion().getName());
 			}
 		}
 	

@@ -148,7 +148,6 @@ public class computer {
 	}
 	private static void getinattackrange()
 	{
-		System.out.println("st : getinattackrange");
 		for(Effect i:currentchampion.getAppliedEffects())
 			if(i instanceof Disarm)
 				return;
@@ -217,12 +216,9 @@ public class computer {
 		}
 		if(inattackcover.size()!=0|| inattackrange.size()!=0)
 			attack = true;
-		System.out.println("end : getinattackrange");
-		System.out.println("---------------->"+attack);
 	}
 	private static void damageability()
 	{
-		System.out.println("st : damageability");
 		for(Effect i:currentchampion.getAppliedEffects())
 			if(i instanceof Silence)
 				return;
@@ -367,12 +363,9 @@ public class computer {
 				}
 			}
 		}
-		System.out.println("end : damageability");
-		System.out.println("-------------------->"+attackability);
 	}
 	private static void healingability()
 	{
-		System.out.println("st : healingability");
 			for(Effect i:currentchampion.getAppliedEffects())
 				if(i instanceof Silence)
 					return;
@@ -392,7 +385,7 @@ public class computer {
 						continue;
 					else
 						if(game.getBoard()[k][j]!=null&&game.getBoard()[k][j] instanceof Champion &&game.checkfriend(currentchampion, (Champion) game.getBoard()[k][j]) )
-							all++;
+							all+= ((Champion) game.getBoard()[j][k]).getMaxHP()-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP())>((Champion) game.getBoard()[j][k]).getMaxHP()?((Champion) game.getBoard()[j][k]).getMaxHP():(((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP()));
 				}
 			}
 			if(all!=0) {
@@ -412,7 +405,7 @@ public class computer {
 								if(Math.abs(currentchampion.getLocation().x-j)+(Math.abs(currentchampion.getLocation().y-k))<=i.getCastRange())
 								{
 									if(game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
-										all+= (((Champion) game.getBoard()[j][k]).getMaxHP())-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP()));
+										all+= ((Champion) game.getBoard()[j][k]).getMaxHP()-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP())>((Champion) game.getBoard()[j][k]).getMaxHP()?((Champion) game.getBoard()[j][k]).getMaxHP():(((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP()));
 								}
 							}
 						}
@@ -432,7 +425,7 @@ public class computer {
 						{
 							if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
 							{
-								up+= (((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getMaxHP())-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getCurrentHP()));
+								up+=((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getMaxHP()-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getCurrentHP())>((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getMaxHP()?((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getMaxHP():(((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getCurrentHP()));
 							}
 						}
 					int down =0;
@@ -443,7 +436,7 @@ public class computer {
 						{
 							if(game.getBoard()[j][currentchampion.getLocation().y] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[j][currentchampion.getLocation().y]))
 							{
-								down+= (((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getMaxHP())-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getCurrentHP()));
+								down+= ((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getMaxHP()-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getCurrentHP())>((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getMaxHP()?((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getMaxHP():(((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][currentchampion.getLocation().y]).getCurrentHP()));
 							}
 						}
 					int right=0;
@@ -454,7 +447,7 @@ public class computer {
 						{
 							if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
 							{
-								right+= (((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getMaxHP())-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getCurrentHP()));
+								right+=((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getMaxHP()-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getCurrentHP())>((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getMaxHP()?((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getMaxHP():(((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getCurrentHP()));
 							}
 						}
 					int left =0;
@@ -465,7 +458,7 @@ public class computer {
 						{
 							if(game.getBoard()[currentchampion.getLocation().x][j] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[currentchampion.getLocation().x][j]))
 							{
-								left+= (((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getMaxHP())-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getCurrentHP()));
+								left+= ((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getMaxHP()-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getCurrentHP())>((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getMaxHP()?((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getMaxHP():(((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[currentchampion.getLocation().x][j]).getCurrentHP()));
 							}
 						}
 					if(up!=0||right!=0||left!=0||down!=0)
@@ -498,7 +491,7 @@ public class computer {
 									 if(game.getBoard()[j][k] instanceof Champion &&game.checkfriend(currentchampion,(Champion) game.getBoard()[j][k]))
 									{
 										 int tmp = all;
-										all = Math.max(all,(((Champion) game.getBoard()[j][k]).getMaxHP())-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP())));
+										all = Math.max(all,((Champion) game.getBoard()[j][k]).getMaxHP()-((((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP())>((Champion) game.getBoard()[j][k]).getMaxHP()?((Champion) game.getBoard()[j][k]).getMaxHP():(((HealingAbility)i).getHealAmount()+((Champion) game.getBoard()[j][k]).getCurrentHP())));
 										if(tmp !=all)
 											tm = new pair2(j,k);
 									}
@@ -513,12 +506,9 @@ public class computer {
 					}
 				}
 			}
-			System.out.println("end : healingability");
-			System.out.println("------------------>"+healingability);
 	}
 	private static void crowdcontrolability()
 	{
-		System.out.println("st : crowdcontrolability");
 		for(Effect i:currentchampion.getAppliedEffects())
 			if(i instanceof Silence)
 				return;
@@ -795,12 +785,9 @@ public class computer {
 				}
 			}
 		}
-		System.out.println("st : crowdcontrolability");
-		System.out.println("-------------------->"+crowdcontrolability);
 	}
 	private static void useleaderab()
 	{
-		System.out.println("st : useleaderab");
 		Champion current = game.getCurrentChampion();
 		if(game.getFirstPlayer().getLeader()!=current || game.isFirstLeaderAbilityUsed())
 		{
@@ -835,15 +822,12 @@ public class computer {
 				leaderab = true;
 			}
 		}
-		System.out.println("end : useleaderab");
-		System.out.println("------------->"+leaderab);
 	}
 	private static int best;
 	private static ArrayList<Direction> m;
 	private static boolean [][] grid;
 	private static void move()
 	{
-		System.out.println("st : move");
 		Champion current =  game.getCurrentChampion();
 		if(currentchampion.getCondition().name().equals("ROOTED"))
 			return;
@@ -854,12 +838,9 @@ public class computer {
 		best = Integer.MAX_VALUE;
 		grid[current.getLocation().x][current.getLocation().y] = false;
 		graph(0,current.getLocation().x,current.getLocation().y,false,new ArrayList<Direction>());
-		System.out.println("end : move");
-		System.out.println("------------------->"+move);
 	}
 	public static void graph(int c,int i,int j,boolean t , ArrayList<Direction> di)
 	{
-		System.out.println("check");
 		if(t&&game.getBoard()[i][j]!=null)
 		{
 			if(game.getBoard()[i][j] instanceof Champion)
