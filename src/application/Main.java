@@ -1,5 +1,7 @@
 package application;
 	
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ public class Main extends Application {
 	
 	private Stage window;
 	private Game game;
-	private MediaPlayer	mediaplayersound; 
+	private MediaPlayer	mediaplayersound = null; 
 	private Button [][]board ;
 	
 	public void start(Stage stage) throws InterruptedException, IOException
@@ -68,9 +70,9 @@ public class Main extends Application {
 		window.getIcons().add(icon);
 		window.setTitle("marvel");
 	
-		//scene1();
+		scene1();
 		
-		scene2(null);
+		//scene2(null);
 		
 		//scene3();
 	
@@ -4903,6 +4905,8 @@ public class Main extends Application {
 	
 	public void playmusic(String s)
 	{
+		if(mediaplayersound !=null)
+			mediaplayersound.setMute(true);
 		File file = new File(s);
 		Media media =new Media(file.toURI().toString());
 		mediaplayersound= new MediaPlayer(media);	
