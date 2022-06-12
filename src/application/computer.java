@@ -119,23 +119,23 @@ public class computer {
 						getinattackrange();
 						if(attack && inattackrange.size()!=0)
 						{
-							alerts.display(currentchampion.getName()+'\n'+"attack : "+'\n'+inattackrange.get(inattackrange.firstKey()).name() , "computer action");
-							game.attack(inattackrange.get(inattackrange.firstKey()));
+							alerts.display(currentchampion.getName()+'\n'+"attack : "+'\n'+(inattackrange.get(inattackrange.firstKey()).name().equals("UP")||inattackrange.get(inattackrange.firstKey()).name().equals("DOWN")?(inattackrange.get(inattackrange.firstKey()).name().equals("UP")?"DOWN":"UP"):inattackrange.get(inattackrange.firstKey()).name()) , "computer action");
+							game.attack(inattackrange.get(inattackrange.firstKey()));  // inattackrange.get(inattackrange.firstKey()).name()
 						}
 						else
 						{
 							move();
 							if(move)
 							{
-								alerts.display(currentchampion.getName()+'\n'+"move : "+'\n'+m.get(0).name() , "computer action");
+								alerts.display(currentchampion.getName()+'\n'+"move : "+'\n'+(m.get(0).name().equals("UP")||m.get(0).name().equals("DOWN")?(m.get(0).name().equals("UP")?"DOWN":"UP"):m.get(0).name()) , "computer action");
 								game.move(m.get(0));
 							}
 							else
 							{
 								if(attack && inattackcover.size()!=0)
 								{
-									alerts.display(currentchampion.getName()+'\n'+"attack : "+'\n'+inattackcover.get(inattackcover.firstKey()).name() , "computer action");
-									game.attack(inattackcover.get(inattackcover.firstKey()));
+									alerts.display(currentchampion.getName()+'\n'+"attack : "+'\n'+(inattackcover.get(inattackcover.firstKey()).name().equals("UP")||inattackcover.get(inattackcover.firstKey()).name().equals("DOWN")?(inattackcover.get(inattackcover.firstKey()).name().equals("UP")?"DOWN":"UP"):inattackcover.get(inattackcover.firstKey()).name()) , "computer action");
+									game.attack(inattackcover.get(inattackcover.firstKey())); //
 								}
 							}
 						}
