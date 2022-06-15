@@ -4955,6 +4955,7 @@ public class Main extends Application {
 				tmp.append("    attackDamage: "+i.getAttackDamage()+'\n');
 				tmp.append("    attackRange: "+i.getAttackRange()+'\n');
 				tmp.append("    speed: "+i.getSpeed()+'\n');
+				tmp.append("    mana: "+i.getMana()+'\n');
 				tmp.append("    -Applied Effects :"+'\n');
 				for(Effect j :i.getAppliedEffects())
 				{
@@ -4981,6 +4982,7 @@ public class Main extends Application {
 				tmp.append("    attackDamage: "+i.getAttackDamage()+'\n');
 				tmp.append("    attackRange: "+i.getAttackRange()+'\n');
 				tmp.append("    speed: "+i.getSpeed()+'\n');
+				tmp.append("    mana: "+i.getMana()+'\n');
 				tmp.append("    -Applied Effects :"+'\n');
 				for(Effect j :i.getAppliedEffects())
 				{
@@ -5005,6 +5007,7 @@ public class Main extends Application {
 			tmp.append("    attackDamage: "+i.getAttackDamage()+'\n');
 			tmp.append("    attackRange: "+i.getAttackRange()+'\n');
 			tmp.append("    speed: "+i.getSpeed()+'\n');
+			tmp.append("    mana: "+i.getMana()+'\n');
 			tmp.append("    abilities :"+'\n');
 			for(Ability j : i.getAbilities())
 			{
@@ -5022,6 +5025,7 @@ public class Main extends Application {
 			tmp.append("    attackDamage: "+m.getAttackDamage()+'\n');
 			tmp.append("    attackRange: "+m.getAttackRange()+'\n');
 			tmp.append("    speed: "+m.getSpeed()+'\n');
+			tmp.append("    mana: "+m.getMana()+'\n');
 			tmp.append("    abilities :"+'\n');
 			for(Ability j : m.getAbilities())
 			{
@@ -5037,6 +5041,7 @@ public class Main extends Application {
 					tmp.append("    attackDamage: "+i.getAttackDamage()+'\n');
 					tmp.append("    attackRange: "+i.getAttackRange()+'\n');
 					tmp.append("    speed: "+i.getSpeed()+'\n');
+					tmp.append("    mana: "+i.getMana()+'\n');
 					tmp.append("    abilities :"+'\n');
 					for(Ability j : i.getAbilities())
 					{
