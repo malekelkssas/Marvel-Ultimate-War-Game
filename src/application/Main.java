@@ -57,9 +57,15 @@ import javafx.scene.text.Font;
 
 
 
-//   https://youtu.be/ZiiSGEHGfMU
-//	youtube link for the game
+/*   https://youtu.be/ZiiSGEHGfMU --> youtube link for the game
 
+--module-path "C:\Users\nice\Desktop\openjfx-18.0.1_windows-x64_bin-sdk\javafx-sdk-18.0.1\lib" --add-modules javafx.controls,javafx.fxml
+
+
+--add-modules javafx.controls,javafx.media
+
+two important lines to add in VM arguments at Run configuration
+*/
 
 public class Main extends Application {
 	
