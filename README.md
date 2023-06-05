@@ -28,7 +28,7 @@ Desktop fighting game based on marvel characters.
 
 3- Build the project using Maven
 ```bash
-  mvn clear
+  mvn clean
 ```
 
 4- Run Javafx project using Maven
