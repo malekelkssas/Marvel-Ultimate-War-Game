@@ -37,13 +37,15 @@ Desktop fighting game based on marvel characters.
 ```
 ## Screenshots
 
+
 ![App Screenshot](https://github.com/malekelkssas/Marvel-Ultimate-War-Game/blob/main/images/screenshots/Screenshot%20(113).png)
+|----------------------------------------------------------------|
 ![App Screenshot](https://github.com/malekelkssas/Marvel-Ultimate-War-Game/blob/main/images/screenshots/Screenshot%20(114).png)
 ![App Screenshot](https://github.com/malekelkssas/Marvel-Ultimate-War-Game/blob/main/images/screenshots/Screenshot%20(115).png)
 ![App Screenshot](https://github.com/malekelkssas/Marvel-Ultimate-War-Game/blob/main/images/screenshots/Screenshot%20(116).png)
 ![App Screenshot](https://github.com/malekelkssas/Marvel-Ultimate-War-Game/blob/main/images/screenshots/Screenshot%20(117).png)
 
-## Authors
+## Author
 
 - [Malek Elkssas](https://github.com/malekelkssas)
 
