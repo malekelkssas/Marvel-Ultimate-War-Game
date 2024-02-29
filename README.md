@@ -8,11 +8,11 @@ Desktop fighting game based on marvel characters.
 
 
 ## 🛠 Skills
-1) Java language
-2) Css
+1) Java Language
+2) CSS
 3) Javafx GUI
-4) OOP features
-5) Exceptions handling
+4) OOP Features
+5) Exceptions Handling
 
 
 ## Run Locally
